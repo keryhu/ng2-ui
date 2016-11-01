@@ -45,12 +45,18 @@
         </table>
 
         <div class="form-submit">
-          <app-loader class="waitPrompt" [visible]="afterLoading"></app-loader>
+
           <button *ngIf="!afterLoading" type="submit" [disabled]="!submitValidate()"
                   class="btn btn-primary btn-lg btn-block"  >
             提交
           </button>
         </div>
+
+        <md-progress-bar *ngIf="afterLoading"
+                         mode="indeterminate">
+
+        </md-progress-bar>
+
 
       </form>
 

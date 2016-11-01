@@ -164,25 +164,15 @@ export class FileUploadComponent implements OnInit,OnDestroy {
       if (file) {
         this.uploadSub = this.uploadService.upload(this.saveUrl, file)
           .subscribe(e=> {
-            this._startUpload = false;
-
             if (e && e.data) {
               if (e.data.hasOwnProperty('result')) {
+                this._startUpload = false;
                 console.log('文件上传成功。');
 
                 this.afterUpload('文件上传成功!')
               }
-              else {
-                //上传失败
-                this.afterUpload('上传失败,请稍后再试!');
-                this._startUpload = false;
-              }
             }
-            else {
-              //上传失败
-              this.uploadErrMsg = '上传失败,请稍后再试!';
-              this._startUpload = false;
-            }
+
           }, err=> {
             //上传失败
             this.uploadErrMsg = '上传失败,请稍后再试!';

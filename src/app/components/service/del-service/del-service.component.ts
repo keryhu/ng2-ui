@@ -37,10 +37,10 @@ export class DelServiceComponent implements OnInit ,OnDestroy {
   ngOnInit(): void {
     this.spinner.stop();
     this.setTitle();
-    this.fieldList = this.route.snapshot.data['serviceInfo'].slice();
+    this.fieldList = this.route.snapshot.data['serviceInfo']['content'].slice();
 
     //必需要 建立一个复制的对象。
-    this.serviceInfo = this.route.snapshot.data['serviceInfo'];
+    this.serviceInfo = this.route.snapshot.data['serviceInfo']['content'];
     //将 user的id 设置到 checkBox里面
     const m = {};
     this.fieldList.forEach(e=>m[e['id']] = new FormControl('', []));

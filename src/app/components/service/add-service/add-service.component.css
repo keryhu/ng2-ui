@@ -1,5 +1,4 @@
-.input-error { border-left:0.5rem solid #f00;}
-.input-success  { border-left:0.5rem solid #0f0;}
+
 
 
 .error-message {
@@ -7,10 +6,21 @@
   font-weight:900;
 }
 
-.afterSignupLoading{
-  margin-left: 40%;
+
+.full-width{
+  width: 100%;
+}
+md-progress-bar{
+  margin-top: 24px;
 }
 
-form{
-  margin-top: 2rem;
+
+md-card{
+  margin-top: 16px;
+  width: 60%;
+  margin-left: 20%;
+}
+
+md-card-title{
+  text-align: center;
 }

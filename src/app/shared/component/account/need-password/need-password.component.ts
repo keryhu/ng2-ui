@@ -4,11 +4,10 @@
  * @author : keryHu keryhu@hotmail.com
  */
 
-import {Component, OnInit, EventEmitter, Output, Input, ElementRef, ViewChild, OnDestroy} from '@angular/core';
+import {Component, OnInit, EventEmitter, Output, Input, OnDestroy} from '@angular/core';
 import {FormGroup, FormControl, Validators} from "@angular/forms";
 import {NeedPasswordService} from "./need-password.service";
 import {Subscription, BehaviorSubject} from "rxjs";
-import * as moment from 'moment';
 
 import {StringFormat,TokenObj} from "../../../../core";
 
@@ -34,7 +33,6 @@ export class NeedPasswordComponent implements OnInit,OnDestroy  {
   //当用户输入密码后,验证成功,且后台成功更新信息后,发出此消息出去。
   @Output() changeInfoSuccess = new EventEmitter<boolean|Object>();
 
-  @ViewChild('passwordText') input: ElementRef;
 
   private form: FormGroup;
   password = new FormControl('', [Validators.required, this.stringFormat.passwordInSize,
@@ -45,7 +43,6 @@ export class NeedPasswordComponent implements OnInit,OnDestroy  {
 
   ngOnInit() {
     this.form = new FormGroup({password: this.password});
-    this.input.nativeElement.focus();
   }
 
   // 当用户点击"取消输入密码的时候,我们应该将页面,恢复到 更改 内容之前。
