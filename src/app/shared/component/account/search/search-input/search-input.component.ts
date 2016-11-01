@@ -65,6 +65,7 @@ export class SearchInputComponent implements OnInit,OnDestroy {
 
   //search result ...
   @ViewChild('userDetail') userDetail: any;
+  @ViewChild('companyDetail') companyDetail:any;
 
   @Output() changeUrlParam = new EventEmitter<Object>();
   // 前台通过获取url 参数，获取到 的 用户 设置的搜索条件的参数，，用来让之用户刷新页面的时候，参数消失
@@ -205,6 +206,9 @@ export class SearchInputComponent implements OnInit,OnDestroy {
         this.submitedObject['content'] = this.searchContent;
       }
     }
+    else {
+      delete this.submitedObject.content;
+    }
 
     // 只有admin 才有时间的选择
     if (this.isXdidianAdmin) {
@@ -246,7 +250,6 @@ export class SearchInputComponent implements OnInit,OnDestroy {
 
       }
     }
-    console.log(this.submitedObject);
 
 
   }
@@ -293,7 +296,7 @@ export class SearchInputComponent implements OnInit,OnDestroy {
     }
     // 公司
     else if (this.submitedObject['searchType'] === allSearchType[1]) {
-
+      this.companyDetail.startSearch();
     }
 
   }

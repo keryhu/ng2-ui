@@ -87,7 +87,8 @@
   </div>
 </div>
 
-<app-search-company-detailed *ngIf="selectedtSearchType=='公司'">
+<app-search-company-detailed #companyDetail *ngIf="selectedtSearchType=='公司'"
+                             [searchParams]="submitedObject">
 
 </app-search-company-detailed>
 

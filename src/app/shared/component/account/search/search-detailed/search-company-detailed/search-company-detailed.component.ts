@@ -1,12 +1,13 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {Http} from "@angular/http";
+import {Http, URLSearchParams} from "@angular/http";
 import {Location} from "@angular/common";
 import {Sort} from "../../sort";
-import {AuthService,RequestService,Convert} from "../../../../../../core";
+import {AuthService,RequestService,Convert,Constant} from "../../../../../../core";
 
 import {ServiceSearchContent} from "../../service-search.interface";
-import {Constant} from "../../../../../../core/service/util/constant";
+import {MdDialogConfig} from "@angular/material";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-search-company-detailed',
@@ -15,7 +16,7 @@ import {Constant} from "../../../../../../core/service/util/constant";
 })
 
 
-export class SearchCompanyDetailedComponent implements OnInit {
+export class SearchCompanyDetailedComponent implements OnInit,OnDestroy {
 
   private url:string;
   private indexUrl:string='service/home';
@@ -32,6 +33,7 @@ export class SearchCompanyDetailedComponent implements OnInit {
 
 
   private registerTimeSort=new Sort('registerTime','none');
+  private sub:Subscription;
 
 
 
@@ -62,6 +64,19 @@ export class SearchCompanyDetailedComponent implements OnInit {
     }
   }
 
+  // 由search-input，调用搜索服务，搜索公司，，
+  startSearch() {
+    this.setUrl();
+
+    //this.refreshUsers(true);
+   // this.currentPage=1;
+   // this.refreshUrl();
+
+    console.log('start search')
+    console.log(this.searchParams);
+
+  }
+
 
   pageChange(event) {
     //用户选择的是第几页。
@@ -69,4 +84,47 @@ export class SearchCompanyDetailedComponent implements OnInit {
 
 
   }
+
+  // 调用远程的方法，刷新公司资料
+  refreshCompany(isClickStart?:boolean){
+    const p = new URLSearchParams();
+    this.setSearchParam(p);
+
+  }
+
+
+
+  setSearchParam(p:URLSearchParams){
+    if(this.authService.isXdidianAdmin()){
+      if(this.searchParams.registerTimeBegin&&this.searchParams.registerTimeEnd){
+        p.set('registerTimeBegin',this.searchParams.registerTimeBegin);
+        p.set('registerTimeEnd',this.searchParams.registerTimeEnd);
+      }
+      if(this.searchParams.lastLoginTimeBegin&&this.searchParams.lastLoginTimeEnd){
+        p.set('lastLoginTimeBegin',this.searchParams.lastLoginTimeBegin);
+        p.set('lastLoginTimeEnd',this.searchParams.lastLoginTimeEnd);
+      }
+    }
+    // admin 和 客服都需要的
+    if(this.searchParams.content){
+      console.log(this.searchParams);
+      p.set('content',this.searchParams.content)
+    }
+
+    p.set('page', (this.currentPage-1).toString());
+    p.set('size',this.pageSize.toString());
+    if(this.searchParams.sort){
+      this.searchParams.sort.forEach(
+        e=>p.append('sort',e.toString())
+      )
+    }
+  }
+
+
+  ngOnDestroy(): void {
+    if(typeof this.sub!='undefined'){
+      this.sub.unsubscribe();
+    }
+  }
+
 }

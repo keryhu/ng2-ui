@@ -66,8 +66,6 @@ export class DateComponent implements OnInit {
   }
 
   getDate():string{
-    console.log('show this module');
-
 
     // 对象复制
     if(this.model){
