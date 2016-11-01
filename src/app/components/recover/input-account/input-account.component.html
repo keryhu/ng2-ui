@@ -1,0 +1,46 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/8/23 下午7:07
+ * @author : keryHu keryhu@hotmail.com
+ -->
+<md-card>
+  <md-card-title>找回帐户</md-card-title>
+  <md-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off">
+
+
+      <md-input placeholder="电子邮箱/手机号" formControlName="username"
+                style="width: 100%">
+
+      </md-input>
+
+      <div class="error-message" *ngIf="username.touched&&username.errors">
+        <label *ngIf="username.errors.required">不能为空</label>
+        <label *ngIf="username.errors.emailOrPhone">必须是电子邮箱或手机</label>
+      </div>
+      <div class="error-message" *ngIf="getErrMsg()|async">{{getErrMsg()|async}}</div>
+
+      <div class="customButton" *ngIf="!afterLoading">
+
+        <a class="LinkButton " [routerLink]="['/login']"
+           md-button color="primary">
+          取消
+        </a>
+
+        <button class="full-width loginButton" type="submit"
+                md-raised-button
+                color="primary" [disabled]="!form.valid">
+          提交
+        </button>
+
+      </div>
+
+      <md-progress-bar *ngIf="afterLoading"
+                       mode="indeterminate">
+      </md-progress-bar>
+
+
+
+    </form>
+  </md-card-content>
+</md-card>

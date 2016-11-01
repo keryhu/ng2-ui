@@ -1,0 +1,65 @@
+<!--
+ * @Description : please enter the description
+ * @date : 2016/9/30 下午3:55
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-10 col-sm-10 clo-xs-10 offset-md-1 offset-sm-1 ">
+      <h2 class="text-sm-center">编辑客服人员</h2>
+
+      <div class="form-group row">
+        <label class="sr-only" for="name">员工姓名</label>
+        <div class="col-md-5 col-sm-5 clo-xs-4 offset-md-3 offset-sm-3">
+          <input #inputName type="text" id="name" class="form-control"
+                 placeholder="输入姓名查找..." (keyup)="search(inputName.value)">
+        </div>
+      </div>
+      <form [formGroup]="form" (ngSubmit)="submit(form.value)"
+            *ngIf="fieldList.length>0">
+        <table class="table  table-hover">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>
+              <span (click)="allChecked()" class="allChecked">全选</span>/<span (click)="notChecked()" class="allChecked">清空</span>
+            </th>
+            <th>姓名</th>
+            <th>邮箱</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let i of fieldList;let n=index" >
+            <th scope="row">{{n+1}}</th>
+            <th>
+              <div class="form-group ">
+                <input type="checkbox" [formControlName]="i.id" >
+              </div>
+            </th>
+            <td>{{i.name}}</td>
+            <td>{{i.email}}</td>
+          </tr>
+
+          </tbody>
+        </table>
+
+        <div class="form-submit">
+          <app-loader class="waitPrompt" [visible]="afterLoading"></app-loader>
+          <button *ngIf="!afterLoading" type="submit" [disabled]="!submitValidate()"
+                  class="btn btn-primary btn-lg btn-block"  >
+            提交
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<md-checkbox
+             [checked]="true">
+
+  ini
+</md-checkbox>

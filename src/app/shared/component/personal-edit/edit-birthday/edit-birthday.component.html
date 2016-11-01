@@ -1,0 +1,40 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/9/20 上午11:55
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+
+<md-card>
+  <md-card-title>生日:</md-card-title>
+  <md-card-content>
+    <div *ngIf="!showReadOnly" class="birthdayEdit">
+
+
+      <app-month-date  [content]="content.birthday"
+                      (submitData)="afterModifiedBirthday($event)">
+      </app-month-date>
+
+    </div>
+
+
+    <span *ngIf="showReadOnly" class="readOnlyInput">
+     <md-input [value]="newBirthdayValue|dateParse:'birthday'" disabled></md-input>
+    </span>
+
+
+
+    <p *ngIf="showReadOnly" class="text-warning editNameHint">
+      为了你的账号安全,请输入登录密码。
+    </p>
+
+    <app-need-password *ngIf="showReadOnly" class="needPassword"
+                       [needSavedContent]="needSavedBirthdayObject"
+                       (cancelInputPassword)="cancelInputPasswordBirthday($event)"
+                       (changeInfoSuccess)="needPasswordChangeBirthdaySuccess($event)">
+
+    </app-need-password>
+
+  </md-card-content>
+</md-card>
+

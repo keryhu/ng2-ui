@@ -1,0 +1,81 @@
+<!--
+ * @Description : 物业公司注册页面
+ * @date : 16/6/19 上午10:34
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+
+<md-card >
+  <md-card-title>现在就加入-<strong>新地点</strong></md-card-title>
+  <md-card-content>
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off">
+      <md-input class="full-width" type="text" formControlName="email"
+                placeholder="电子邮箱">
+
+      </md-input>
+
+      <span class="error-message" *ngIf="email.touched&&email.errors">
+        <label *ngIf="email.errors.required">不能为空</label>
+        <label *ngIf="email.errors.emailFormat">电子邮箱格式不正确</label>
+        <label *ngIf="email.errors.emailExist">电子邮箱已注册</label>
+      </span>
+
+
+      <md-input class="full-width" type="text"
+                placeholder="手机号" formControlName="phone">
+
+      </md-input>
+
+      <span class="error-message" *ngIf="phone.touched&&phone.errors">
+        <label *ngIf="phone.errors.required">不能为空</label>
+        <label *ngIf="phone.errors.phoneFormat">手机号格式不正确</label>
+        <label *ngIf="phone.errors.phoneExist">手机号已注册</label>
+      </span>
+
+
+
+      <md-input class="full-width" type="text" placeholder="员工姓名"
+                formControlName="name">
+
+      </md-input>
+
+      <span class="error-message" *ngIf="name.touched&&name.errors">
+               <label *ngIf="name.errors.required">不能为空</label>
+              <label *ngIf="name.errors.nameFormate">名字不规范</label>
+      </span>
+
+
+
+      <md-input class="full-width" type="password"
+                placeholder="密码(6-20位数字和字母组合)" formControlName="password">
+
+      </md-input>
+
+      <span class="error-message" *ngIf="password.touched&&password.errors">
+        <label *ngIf="password.errors.required">不能为空</label>
+        <label *ngIf="password.errors.shouldInSize">必须6-20位</label>
+        <label *ngIf="password.errors.containTwoTypes">必须包含两种组合</label>
+      </span>
+
+
+
+      <button class="full-width" type="submit" *ngIf="!afterSignupLoading"
+              md-raised-button
+              color="primary"  [disabled]="!form.valid">
+        注册
+      </button>
+
+      <md-progress-bar *ngIf="afterSignupLoading"
+                       mode="indeterminate">
+
+      </md-progress-bar>
+
+      <a *ngIf="!afterSignupLoading" class="loginLinkButton full-width" [routerLink]="['/login']"
+         md-button color="primary">
+        已有账号？登录
+      </a>
+    </form>
+
+  </md-card-content>
+
+</md-card>

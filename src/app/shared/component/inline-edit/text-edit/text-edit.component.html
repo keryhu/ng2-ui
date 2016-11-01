@@ -1,0 +1,16 @@
+
+<md-input *ngIf="!(getInputShowStatus()|async)" (click)="edit(editText)"
+          disabled [value]="content" style="cursor: pointer">
+
+</md-input>
+
+
+<span [hidden]="!(getInputShowStatus()|async)">
+
+<md-input #editText  type="text" [value]="content"
+          (keyup.enter)="onSubmit(editText.value)"
+          (blur)="cancelModify()" (keydown.Escape)="cancelModify()">
+
+</md-input>
+</span>
+

@@ -1,0 +1,10 @@
+md-card{
+  margin-top: 16px;
+  width: 50%;
+  margin-left: 25%;
+}
+
+md-card-title{
+  text-align: center;
+}
+

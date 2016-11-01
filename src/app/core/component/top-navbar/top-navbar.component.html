@@ -1,0 +1,62 @@
+<md-toolbar color="primary">
+
+  <button class="app-icon-button" *ngIf="getLoggedIn() | async" md-icon-button (click)="toggle()">
+    <md-icon class="md-24">menu</md-icon>
+  </button>
+
+
+  <md-nav-list>
+    <a md-list-item routerLink="/" routerLinkActive="active">新地点</a>
+    <a md-list-item routerLink="/" routerLinkActive="active">首页</a>
+
+    <a *ngIf="!isXdidianStaff()" md-list-item routerLink="profile/create-company"
+       routerLinkActive="active">创建公司
+    </a>
+
+
+  </md-nav-list>
+
+
+  <span class="fill-remaining-space"></span>
+
+
+  <span class="right">
+
+
+    <md-nav-list>
+     <button md-icon-button (click)="clickSearch()" class="searchIcon"
+             [disabled]="showSearchBar">
+      <md-icon class="md-24" >
+        search
+      </md-icon>
+      </button>
+
+
+      <app-search-bar *ngIf="showSearchBar" (blurSearch)="closeSearch()"></app-search-bar>
+
+
+      <button *ngIf="showSearchBar" md-icon-button (click)="closeSearch()">
+      <md-icon class="md-24">close</md-icon>
+      </button>
+
+
+       <a md-list-item routerLink="/signup" *ngIf="!(getLoggedIn() | async)"
+          routerLinkActive="active">注册
+       </a>
+
+       <a md-list-item *ngIf="getLoggedIn() | async"
+          [routerLink]=afterLoggedUrl routerLinkActive="active">
+         {{afterLoggedIndex}}
+       </a>
+
+        <a md-list-item *ngIf="!(getLoggedIn() | async)"
+           routerLink="/login" routerLinkActive="active">登录</a>
+
+
+        <a md-list-item *ngIf="getLoggedIn() | async"
+           (click)="logout()" routerLinkActive="active">安全退出</a>
+  </md-nav-list>
+  </span>
+
+
+</md-toolbar>

@@ -1,0 +1,28 @@
+<!--
+ * @Description : please enter the description
+ * @date : 2016/9/26 下午10:08
+ * @author : keryHu keryhu@hotmail.com
+ -->
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-8 col-sm-8 clo-xd-8  offset-md-2 offset-sm-2 ">
+
+      <div class="alert alert-info text-lg-center" role="alert">
+        <strong>恭喜!</strong> 您已成功注册公司帐户，请耐心等待工作人员审核！
+      </div>
+
+      <button type="button" (click)="showCompanyPreview()" class="btn btn-primary btn-lg btn-block ">
+        查看已提交的注册信息
+      </button>
+
+      <div *ngIf="companyPreview">
+        <hr>
+        <app-uncheck-company [companyType]="companyType"  [companyInfo]="waitCheckResolveInfo">
+
+        </app-uncheck-company>
+
+      </div>
+
+    </div>
+  </div>
+</div>

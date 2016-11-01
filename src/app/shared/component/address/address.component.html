@@ -1,0 +1,51 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/9/15 下午4:49
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+
+<form class="form-inline" role="form" [formGroup]="form">
+  <div class="form-group" >
+
+    <label class="sr-only" for="province">省份</label>
+
+    <select class="select-style"  id="province"
+            formControlName="province"
+            (change)="onProvinceChange($event.target.value)">
+      <option *ngFor="let p of provinces "
+              [value]="p" [selected]="defaultProvince === p ">
+        {{p}}</option>
+    </select>
+
+
+  </div>
+
+
+  <div class="form-group">
+    <label class="sr-only" for="city">地级市</label>
+    <select class="select-style"  id="city"
+            formcontrolname="city"
+            (change)="onCityChange($event.target.value)">
+      <option *ngFor="let c of cities |async" >{{c}}</option>
+    </select>
+  </div>
+
+
+  <div class="form-group">
+    <label class="sr-only" for="county">县</label>
+
+    <select class="select-style" id="county"
+            formControlName="county">
+      <option *ngFor="let c of counties |async" >{{c}}</option>
+    </select>
+
+  </div>
+
+
+
+
+</form>
+
+
+

@@ -1,0 +1,95 @@
+<!--
+ * @Description : please enter the description
+ * @date : 2016/9/29 下午7:01
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-5 col-sm-5 clo-xs-5 offset-md-3 offset-sm-3 ">
+
+      <div *ngIf="!saveStatus">
+        <h2 class="text-muted text-sm-center">录入客服人员</h2>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+          <div class="form-group">
+            <label class="sr-only" for="email">电子邮箱</label>
+            <input type="text" id="email" class="form-control"
+                   [class.input-error]="email.touched&&email.errors"
+                   [class.input-success]="email.valid"
+                   placeholder="电子邮箱" formControlName="email">
+
+            <span class="error-message" *ngIf="email.touched&&email.errors">
+        <label *ngIf="email.errors.required">不能为空</label>
+        <label *ngIf="email.errors.emailFormat">电子邮箱格式不正确</label>
+        <label *ngIf="email.errors.emailExist">电子邮箱已注册</label>
+      </span>
+
+          </div>
+
+          <div class="form-group">
+            <label class="sr-only" for="phone">手机号</label>
+            <input type="text" id="phone" class="form-control"
+                   [class.input-error]="phone.touched&&phone.errors"
+                   [class.input-success]="phone.valid"
+                   placeholder="手机号" formControlName="phone">
+            <span class="error-message" *ngIf="phone.touched&&phone.errors">
+        <label *ngIf="phone.errors.required">不能为空</label>
+        <label *ngIf="phone.errors.phoneFormat">手机号格式不正确</label>
+        <label *ngIf="phone.errors.phoneExist">手机号已注册</label>
+      </span>
+          </div>
+
+          <div class="form-group">
+            <label class="sr-only" for="name">员工姓名</label>
+            <input type="text" id="name" class="form-control"
+                   [class.input-error]="name.touched&&name.errors"
+                   [class.input-success]="name.valid"
+                   placeholder="员工姓名" formControlName="name">
+            <span class="error-message" *ngIf="name.touched&&name.errors">
+               <label *ngIf="name.errors.required">不能为空</label>
+              <label *ngIf="name.errors.nameFormate">名字不规范</label>
+      </span>
+          </div>
+
+
+          <div class="form-group">
+            <label class="sr-only" for="password">密码</label>
+            <input type="password" id="password" class="form-control"
+                   [class.input-error]="password.touched&&password.errors"
+                   [class.input-success]="password.valid"
+                   placeholder="密码(6-20位数字和字母组合)" formControlName="password">
+            <span class="error-message" *ngIf="password.touched&&password.errors">
+        <label *ngIf="password.errors.required">不能为空</label>
+        <label *ngIf="password.errors.shouldInSize">必须6-20位</label>
+        <label *ngIf="password.errors.containTwoTypes">必须包含两种组合</label>
+      </span>
+          </div>
+
+
+          <div class="form-submit">
+            <app-loader class="afterSignupLoading" [visible]="afterSubmitLoading"></app-loader>
+            <button *ngIf="!afterSubmitLoading" type="submit" [disabled]="!form.valid"
+                    class="btn btn-primary btn-lg btn-block">保存
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div *ngIf="saveStatus">
+        <div class="alert alert-success text-sm-center" role="alert">
+          <strong>保存信息成功!</strong>
+        </div>
+
+        <button type="button" class="btn btn-outline-primary btn-block"
+                (click)="continueAdd()">
+          继续录入
+        </button>
+
+
+      </div>
+
+
+    </div>
+  </div>
+</div>

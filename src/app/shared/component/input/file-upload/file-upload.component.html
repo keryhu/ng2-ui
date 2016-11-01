@@ -1,0 +1,49 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/9/18 下午8:35
+ * @author : keryHu keryhu@hotmail.com
+ -->
+<div class="row ">
+
+  <div class="col-md-12 col-sm-12 clo-xd-12  ">
+
+    <label class="fileContainer " *ngIf="!waitUpload&&!(showUpload()|async)">
+      {{buttonValue}}
+      <input type="file" [accept]="acceptType" (change)="changeEvent($event)"/>
+    </label>
+
+    <md-spinner *ngIf="waitUpload"></md-spinner>
+
+
+  </div>
+
+
+  <div class="col-md-12 col-sm-12 clo-xd-12  ">
+    <div class="error-message uploadButton">
+      {{uploadErrMsg}}
+    </div>
+
+  </div>
+
+
+  <div class="col-md-12 col-sm-12 clo-xd-12  ">
+    <div class="" *ngIf="(showUpload()|async)">
+      <button *ngIf="(showUpload()|async)&&!startUpload()&&saveUrl"
+              type="button" class="btn btn-primary"
+              (click)="uploadFile()">提交</button>
+
+      <md-spinner *ngIf="startUpload()"></md-spinner>
+
+
+      <button type="button" class="btn btn-outline-secondary"
+              [disabled]="startUpload()"
+              (click)="cancelUpload()">取消</button>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+

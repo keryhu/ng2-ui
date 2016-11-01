@@ -1,0 +1,17 @@
+.form-inline{
+  float: none;
+  display: inline;
+}
+
+
+.input-group .form-control{
+  width: 7rem;
+  height: 1.8rem;
+  padding: 0.2rem;
+}
+
+
+.input-group .input-group-addon{
+  height: 1.8rem;
+  padding: 0.2rem;
+}

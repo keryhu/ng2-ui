@@ -1,0 +1,23 @@
+.row{
+  margin-top: 5%;
+}
+
+
+.btn{
+  margin-top: 3%;
+  margin-left: 30%;
+}
+
+
+
+
+
+.demo-sidenav-layout {
+  border: 3px solid black;
+}
+md-sidenav {
+  padding: 10px;
+}
+.demo-sidenav-content {
+  padding: 15px;
+}

@@ -1,0 +1,27 @@
+<app-spinner></app-spinner>
+<!-- 这里只能用hidden，不能用ngif-->
+<div [hidden]="active">
+
+  <md-sidenav-layout class="side-layout" fullscreen>
+    <md-sidenav #start>
+
+      <button md-icon-button (click)="start.close()" class="clearIcon" color="primary">
+        <md-icon class="md-48">clear</md-icon>
+      </button>
+
+      <app-side-menu *ngIf="getLoggedIn() | async"></app-side-menu>
+
+    </md-sidenav>
+
+    <app-top-navbar (toggleMenuIcon)="toggle($event)"></app-top-navbar>
+    <router-outlet></router-outlet>
+
+  </md-sidenav-layout>
+
+
+
+</div>
+
+
+
+

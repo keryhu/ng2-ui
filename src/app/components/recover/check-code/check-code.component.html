@@ -1,0 +1,22 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/8/25 上午9:32
+ * @author : keryHu keryhu@hotmail.com
+ -->
+<md-card>
+  <md-card-title>
+    输入验证码
+  </md-card-title>
+  <md-card-subtitle>
+    请查看{{method}}中的6位数验证码
+  </md-card-subtitle>
+  <md-card-content>
+    <app-account-activate [countdownName]="itemName" [tokenExiredUrl]="tokenExiredUrl"
+                          [urlParams]="urlParams" (tokenConfirmSuccess)="tokenConfirmSuccess($event)"
+                          (resendSuccess)="resendSuccess($event)" (cancel)="cancel($event)" >
+
+    </app-account-activate>
+  </md-card-content>
+</md-card>
+
+

@@ -1,0 +1,64 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/9/8 下午4:01
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+
+<md-card>
+  <md-card-title>
+    {{keyName}}:
+  </md-card-title>
+  <md-card-content>
+
+    <div class="textEdit" *ngIf="!showReadOnly" (mouseenter)="mouseOverName()" (mouseleave)="mouseLeaveName()">
+      <app-text-edit [content]="commonValue" [canClickEdit]="canClickEdit"
+                     (submitData)="submitEdit($event)" (clickEdit)="clickEdit($event)"
+                     (cancelEdit)="cancelEdit($event)">
+      </app-text-edit>
+
+    </div>
+
+
+    <md-input *ngIf="showReadOnly||showInputCode" type="text"
+              [value]="newCommonValue" disabled>
+
+    </md-input>
+    <br>
+
+
+    <p *ngIf="showReadOnly&&!showInputCode" class="text-warning editNameHint">
+      为了你的账号安全,请输入登录密码。
+    </p>
+
+    <app-need-password *ngIf="showReadOnly&&!showInputCode" class="needPassword"
+                       [needSavedContent]="needSavedCommonObject"
+                       (cancelInputPassword)="cancelInputPassword($event)"
+                       (changeInfoSuccess)="needPasswordChangeSuccess($event)">
+    </app-need-password>
+
+    <span *ngIf="!showReadOnly" class="error-message">
+          <label>{{editMsg}}</label>
+         </span>
+    <p *ngIf="showEditNameHint|async" class="text-warning editNameHint">
+      <strong>请注意:</strong> 未来60天内你将无法再次修改姓名。请不要在姓名中随意添加大小写字母、标点、字符或词语。
+    </p>
+
+    <span *ngIf="!canClickEdit" class="error-message">
+          <label>{{cannotEditNameErrMsg}}</label>
+         </span>
+
+    <p *ngIf="showAccountActivatedComponent" class="text-warning editNameHint">
+      输入{{emailOrPhoneHint}}中验证码！
+    </p>
+
+    <app-account-activate class="accountActivate" *ngIf="showAccountActivatedComponent"
+                          [countdownName]="itemName" [tokenExiredUrl]="tokenExiredUrl"
+                          [urlParams]="urlParams" (cancel)="cancelAccountActivate($event)"
+                          (tokenConfirmSuccess)="tokenConfirmSuccess($event)">
+    </app-account-activate>
+
+  </md-card-content>
+</md-card>
+
+

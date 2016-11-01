@@ -1,0 +1,13 @@
+.birthdayEdit{
+  color: dodgerblue;
+}
+
+.readOnlyInput input{
+  display: inline;
+  width: 6rem;
+
+}
+
+.editNameHint {
+  margin-top: 3%;
+}

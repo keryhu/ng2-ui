@@ -1,0 +1,69 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/6/29 上午10:06
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+
+<md-card>
+  <md-card-title>登录</md-card-title>
+    <md-card-content>
+    <p class="error-message" *ngIf="getIPBlock()">{{blockMsg}}
+    <p class="error-message" *ngIf="getAfterLoginMsg()|async">{{getAfterLoginMsg()|async}}
+    </p>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" autocomplete="off">
+
+
+        <md-input class="full-width" type="text"
+                  placeholder="电子邮箱/手机号" formControlName="username">
+
+        </md-input>
+        <span class="error-message"
+              *ngIf="username.touched && username.errors">
+
+        <label *ngIf="username.errors.required">不能为空</label>
+        <label *ngIf="username.errors.emailOrPhone">必须是电子邮箱或手机</label>
+        <label *ngIf="username.errors.emailNotExist">电子邮箱还未注册!</label>
+        <label *ngIf="username.errors.phoneNotExist">手机号还未注册!</label>
+      </span>
+
+        <md-input class="full-width" type="password"
+                  placeholder="密码(6-20位数字和字母组合)" formControlName="password">
+
+        </md-input>
+        <span class="error-message" *ngIf="password.touched&&password.errors">
+        <label *ngIf="password.errors.required">不能为空</label>
+        <label *ngIf="password.errors.shouldInSize">必须6-20位</label>
+        <label *ngIf="password.errors.containTwoTypes">必须包含两种组合</label>
+      </span>
+
+
+        <button class="full-width loginButton" type="submit" *ngIf="!afterLoggedLoading"
+                md-raised-button
+                color="primary"   [disabled]="getIPBlock()||!loginForm.valid">
+          登录
+        </button>
+
+        <md-progress-bar *ngIf="afterLoggedLoading"
+                         mode="indeterminate">
+
+        </md-progress-bar>
+
+      </form>
+
+
+  </md-card-content>
+
+  <md-card-actions *ngIf="!afterLoggedLoading">
+    <a class="LinkButton " [routerLink]="['/recover']"
+       md-button color="primary">
+      忘记密码
+    </a>
+
+    <a class="LinkButton " [routerLink]="['/signup']"
+       md-button color="primary">
+      注册
+    </a>
+  </md-card-actions>
+</md-card>
+

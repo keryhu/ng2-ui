@@ -1,0 +1,17 @@
+
+<md-card >
+  <md-card-title align="center">电子邮箱激活页面</md-card-title>
+
+  <md-card-content>
+
+    <hr>
+
+    <app-account-activate [countdownName]="itemName" [tokenExiredUrl]="tokenExiredUrl"
+                          [urlParams]="urlParams" (cancel)="cancel($event)"
+                          (resendSuccess)="resendSuccess($event)">
+
+    </app-account-activate>
+
+  </md-card-content>
+
+</md-card>

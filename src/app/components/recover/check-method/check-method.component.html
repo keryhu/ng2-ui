@@ -1,0 +1,41 @@
+<!--
+ * @Description : please enter the description
+ * @date : 16/8/23 下午10:39
+ * @author : keryHu keryhu@hotmail.com
+ -->
+<md-card>
+  <md-card-title>重置密码</md-card-title>
+  <md-card-subtitle>您希望如何重置密码?</md-card-subtitle>
+  <md-card-content>
+
+    <md-radio-group [(ngModel)]="checkedMethd">
+      <md-radio-button [value]=methods[0]>
+        {{emailDis}}
+      </md-radio-button>
+      <br>
+      <md-radio-button [value]=methods[1] disabled="true">
+        {{phoneDis}}
+      </md-radio-button>
+    </md-radio-group>
+
+      <div class="customButton" *ngIf="!afterLoading">
+
+        <a class="LinkButton " [routerLink]="['/login']"
+           md-button color="primary">
+          取消
+        </a>
+
+        <button  md-raised-button  (click)="onSubmit()"
+                color="primary" [disabled]="!checkedMethd">
+          提交
+        </button>
+
+      </div>
+
+
+      <md-progress-bar *ngIf="afterLoading"
+                       mode="indeterminate">
+      </md-progress-bar>
+
+  </md-card-content>
+</md-card>

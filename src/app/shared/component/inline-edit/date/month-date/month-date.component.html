@@ -1,0 +1,81 @@
+<!--
+ * @Description : 显示两个下拉框,,让客户选择月份和date
+ * @date : 16/9/6 下午3:54
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+
+<!--
+value={{content|dateParse:'birthday'}}  因为有bug ，所以暂时设置，全部的生日显示
+-->
+<md-input [value]="content|dateParse:'birthday'" (click)="clickDate()"
+          *ngIf="showOriginalContent" disabled>
+
+</md-input>
+
+<form [formGroup]="form" role="form" class="form-inline" (ngSubmit)="onSubmit(form.value)" *ngIf="!showOriginalContent">
+
+  <div class="form-group">
+    <select class="select-style" formcontrolname="month" id="month"
+            (change)="onMonthChange($event.target.value)">
+      <option *ngFor="let m of months" [value]="m" [selected]="mm === m ">{{m}}</option>
+    </select>
+    <label for="month">月</label>
+  </div>
+
+  <div class="form-group">
+    <select class="select-style" formcontrolname="date" id="date"  (change)="onDateChange($event.target.value)">
+      <option *ngFor="let d of dates" [value]="d" [selected]="dd === d ">{{d}}</option>
+    </select>
+    <label for="date">日</label>
+  </div>
+
+  <!--
+    这里的 更改为  md-icon 会导致 页面刷新，和form冲突，不知道傻原因
+    -->
+
+  <span class="twoButton">
+
+  <button type="submit" class="btn btn-primary btn-sm ">
+   <i class="fa fa-check" aria-hidden="true"></i>
+  </button>
+
+
+  <button type="button" (click)="cancelModify()"
+          class="btn btn-default btn-sm">
+    <i class="fa fa-times" aria-hidden="true"></i>
+  </button>
+  </span>
+
+  <!--
+
+    <button type="submit" md-icon-button >
+   <md-icon class="md-24">check</md-icon>
+ </button>
+
+ <button md-icon-button (click)="cancelModify()">
+   <md-icon class="md-24">close</md-icon>
+ </button>
+   -->
+
+</form>
+<div *ngIf="errMsg" class="error-message">
+  <label>{{errMsg}}</label>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

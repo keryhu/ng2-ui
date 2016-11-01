@@ -1,0 +1,6 @@
+
+
+<md-nav-list  *ngFor="let menu of menus | async">
+  <a md-list-item  [routerLink]=menu?.url routerLinkActive="active">{{menu?.name}}</a>
+</md-nav-list>
+

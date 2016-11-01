@@ -1,0 +1,16 @@
+.clearIcon{
+  width: 100%;
+  position: relative;
+  bottom: 0;
+  margin: 24px 0;
+}
+
+md-sidenav{
+  min-width: 15%;
+}
+
+
+app-side-menu{
+  width: 100%;
+  position: relative;
+}

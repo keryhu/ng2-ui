@@ -1,0 +1,56 @@
+h1 {
+  text-align: center;
+}
+
+.error-message {
+  color: #F44336;
+  font-weight:900;
+}
+
+hr {
+  border: solid thin gray;
+}
+
+span {
+  color: dodgerblue;
+}
+
+
+.uploadButton{
+  margin-bottom: 8%;
+  margin-top: 3rem;
+}
+.headerButton .btn {
+  margin-right: 10%;
+}
+
+.readOnlyInput input{
+  background-color: lightgrey;
+}
+
+.needPassword{
+  margin-left: 12%;
+  margin-top: 13%;
+}
+
+.editNameHint{
+  margin-left: 12%;
+  margin-top: 5%;
+}
+
+
+.edit{
+  display: flex;
+  flex-direction: column;
+}
+
+app-edit-text{
+  margin: 16px;
+}
+app-edit-birthday{
+  margin: 16px;
+}
+
+app-change-password{
+  margin: 16px;
+}

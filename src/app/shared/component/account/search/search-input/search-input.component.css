@@ -1,0 +1,16 @@
+.selectDate{
+  margin-left: 2rem;
+}
+
+.registerChecked{
+  margin-left: 1rem;
+}
+
+.lastLoggedChecked{
+  margin-left: 10rem;
+}
+
+.error-message {
+  color: #F44336;
+  font-weight:900;
+}

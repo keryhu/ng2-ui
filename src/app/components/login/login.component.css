@@ -1,0 +1,39 @@
+
+
+.error-message {
+  color: #F44336;
+  font-weight:900;
+}
+
+md-progress-bar{
+  margin-top: 32px;
+}
+
+
+md-card{
+  margin-top: 16px;
+  width: 60%;
+  margin-left: 20%;
+}
+
+md-card-title{
+  text-align: center;
+}
+
+md-card-actions{
+  text-align: center;
+}
+
+.full-width{
+  width: 100%;
+}
+
+
+.LinkButton{
+  margin-top: 16px;
+}
+
+.loginButton{
+
+  margin-top: 24px;
+}

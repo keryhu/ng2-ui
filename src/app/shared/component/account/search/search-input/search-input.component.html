@@ -1,0 +1,100 @@
+<div class="container">
+  <div class="row">
+    <h1 class="text-xs-center">搜索公司或者会员</h1>
+    <div class="col-sm-3">
+
+      <h6>搜索类型:</h6>
+      <md-button-toggle-group name="sType" [(ngModel)]="selectedtSearchType"
+                              (change)="toggleSearchType($event.value)">
+        <md-button-toggle *ngFor="let t of allSearchTypes" [value]="t">
+          {{t}}
+        </md-button-toggle>
+      </md-button-toggle-group>
+
+    </div>
+
+    <div class="col-sm-2">
+      <md-checkbox *ngIf="showRegisterCheckBox&&isXdidianAdmin"
+                   [(ngModel)]="showRegisterDatePicker">
+        选择注册时间
+      </md-checkbox>
+
+      <md-checkbox *ngIf="showLastLoggedCheckBox&&isXdidianAdmin"
+                   [(ngModel)]="showLastLoggedDatePicker">
+        最近登录时间
+      </md-checkbox>
+
+
+    </div>
+
+    <div class="col-sm-7">
+
+      <span class="selectDate" *ngIf="showRegisterDatePicker">
+         <span class="startDate">起始:
+           <app-date #startRegisterDate
+                     [newDate]="urlParamObject?.registerTimeBegin">
+
+         </app-date></span>
+
+       <span class="endDate">结束:
+         <app-date #endRegisterDate
+                   [newDate]="urlParamObject?.registerTimeEnd||today">
+
+       </app-date></span>
+      </span>
+
+      <br>
+      <span class="selectDate" *ngIf="showLastLoggedDatePicker">
+         <span class="startDate">起始:
+           <app-date #startLoggedDate
+                     [newDate]="urlParamObject?.lastLoginTimeBegin">
+
+         </app-date></span>
+
+         <span class="endDate">结束:
+           <app-date #endLoggedDate
+                     [newDate]="urlParamObject?.lastLoginTimeEnd||today">
+
+         </app-date>
+         </span>
+      </span>
+      <br>
+      <div class="error-message" *ngIf="showRegisterDatePicker||showLastLoggedDatePicker">
+        {{selectedTimeErrMsg}}
+      </div>
+    </div>
+
+  </div>
+  <hr>
+
+  <div class="row" *ngIf="selectedtSearchType&&selectedtSearchType!='未选择'">
+
+    <md-input style="width: 40%" [placeholder]="placeholdContent"
+              [(ngModel)]="searchContent"
+              (keyup.enter)="search()">
+      <span md-suffix *ngIf="containsSpecialCharacter">
+        <button md-icon-button md-tooltip="特殊字符将被忽略" tooltip-position="below">
+          <md-icon class="md-24">report_problem</md-icon>
+        </button>
+      </span>
+
+    </md-input>
+    <button md-icon-button [disabled]="(!isXdidianAdmin)&&!searchContent"
+            (click)="search() ">
+      <md-icon class="md-24">search</md-icon>
+    </button>
+
+  </div>
+</div>
+
+<app-search-company-detailed *ngIf="selectedtSearchType=='公司'">
+
+</app-search-company-detailed>
+
+
+<app-search-user-detailed #userDetail *ngIf="selectedtSearchType=='会员'"
+                          [searchParams]="submitedObject">
+
+</app-search-user-detailed>
+
+

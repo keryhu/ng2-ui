@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <div class="row ">
+    <div class="col-md-12 col-sm-12 clo-xd-12  ">
+      <h1>编辑个人资料</h1>
+
+
+      <div class="row ">
+        <div class="col-md-4 col-sm-4 clo-xd-4  ">
+          <img [src]="getImage()|async" width="160" height="200"/>
+        </div>
+
+        <div class="col-md-4 col-sm-4 clo-xd-4 ">
+          <div class="uploadButton">
+            <app-file-upload [buttonValue]="uploadbuttonValue" [acceptType]="acceptType"
+                         [maxSize]="maxSize" [minResizeSize]="minResizeSize"
+                         [saveUrl]="imageSaveUrl"  [resizeDimension]="resizeDimension"
+                         (uploadComplete)="uploadComplete($event)">
+
+            </app-file-upload>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <hr>
+      <div class="edit">
+        <app-edit-text [content]="nameObject"></app-edit-text>
+        <app-edit-text [content]="emailObject"></app-edit-text>
+        <app-edit-text [content]="phoneObject"></app-edit-text>
+        <app-edit-birthday [content]="birthdayObject"></app-edit-birthday>
+
+        <app-change-password (cancelChangePassword)="cancelChangePassword($event)">
+        </app-change-password>
+      </div>
+
+      <hr>
+
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
+

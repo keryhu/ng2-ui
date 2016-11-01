@@ -1,0 +1,47 @@
+
+<p *ngIf="showContent" (click)="cancelContent()">
+  click me show form
+</p>
+
+
+<form #heroForm="ngForm" *ngIf="!showContent"  (ngSubmit)="onSubmit()">
+
+
+  <input type="text" [(ngModel)]="name" name="name">
+
+
+
+  <button type="button" (click)="cancelForm()">
+    hiddenForm
+  </button>
+
+  <button md-button  (click)="cancelForm()">FLAT</button>
+
+</form>
+
+
+<!---
+
+<form [formGroup]="form" *ngIf="!showContent"
+      (ngSubmit)="onSubmit(form.value)" >
+
+
+    <input type="text" formControlName="name">
+
+
+
+ <button type="button" (click)="cancelForm()">
+    hiddenForm
+  </button>
+
+  <button md-button  (click)="cancelForm()">FLAT</button>
+
+</form>
+
+
+  <button type="button" (click)="cancelForm()"
+          class="btn btn-default btn-sm">
+    <i class="fa fa-times" aria-hidden="true"></i>
+  </button>
+
+-->

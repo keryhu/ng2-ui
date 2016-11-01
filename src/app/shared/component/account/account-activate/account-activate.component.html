@@ -1,0 +1,71 @@
+<!--
+ * @Description : 当用户输入email,或手机验证码,出现的输入框,填写验证码,以及验证码验证码是否正确,重复发送 的组件
+   可以用在email激活,手机号绑定,修改email,手机号
+ * @date : 16/9/8 上午9:35
+ * @author : keryHu keryhu@hotmail.com
+ -->
+
+
+<md-card>
+  <md-card-content>
+
+
+    <form *ngIf="!afterLoading" [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off">
+
+      <md-input #tokenText class="full-width" type="text"
+                formControlName="token" placeholder="验证码">
+
+      </md-input>
+
+
+      <button type="submit" md-icon-button [disabled]="!form.valid">
+        <md-icon class="md-24">check</md-icon>
+      </button>
+
+      <button md-icon-button (click)="cancelInput()">
+        <md-icon class="md-24">close</md-icon>
+      </button>
+
+      <div class="error-message" *ngIf="token.touched&&token.errors">
+        <label *ngIf="token.errors.required">不能为空</label>
+        <label *ngIf="token.errors.pattern">必须6位数字</label>
+      </div>
+
+      <div class="error-message" *ngIf="getTokenError()|async">
+        <label>{{getTokenError()|async}}</label>
+      </div>
+
+    </form>
+
+
+    <div *ngIf="afterLoading">
+      <md-progress-bar mode="indeterminate"></md-progress-bar>
+    </div>
+
+
+  </md-card-content>
+  <md-card-actions>
+    <button md-raised-button [disabled]="disableClickResend()|async"
+            (click)="resend()">
+      重新发送
+    </button>
+    <app-countdown class="countdown" [itemName]="itemName"></app-countdown>
+
+    <span *ngIf="(getResendError()|async)" class="error-message">
+    <label>{{getResendError()|async}}</label>
+  </span>
+
+    <div>
+      <button md-raised-button [disabled]="disableClickResend()|async"
+              (click)="resignup()" *ngIf="applySituation == 'SIGNUP'"
+              color="accent" class="resignupButton">
+        重新注册
+      </button>
+
+      <span class="error-message" *ngIf="getResignupError()|async">
+    <label>{{getResignupError()|async}}</label>
+    </span>
+    </div>
+
+  </md-card-actions>
+</md-card>
