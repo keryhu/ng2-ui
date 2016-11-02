@@ -1,4 +1,4 @@
-import {Component, OnInit, Injectable} from '@angular/core';
+import {Component, OnInit, Injectable, Output, EventEmitter} from '@angular/core';
 import {NgbDateStruct, NgbDatepickerConfig, NgbDatepickerI18n} from "@ng-bootstrap/ng-bootstrap";
 import {Input} from "@angular/core/src/metadata/directives";
 import {ViewChild} from "@angular/core/src/metadata/di";
@@ -38,7 +38,7 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
 })
 export class DateComponent implements OnInit {
 
-  private model: NgbDateStruct;
+  private _model:any;
 
   constructor(private config: NgbDatepickerConfig) {
     // customize default values of datepickers used by this component tree
@@ -52,6 +52,9 @@ export class DateComponent implements OnInit {
 
   @ViewChild('d') d:any;
 
+  // change date 促发的事件，更新到前台。
+  @Output() changeDate = new EventEmitter<string>();
+
   ngOnInit() {
     // 将前台传递来的时间，转为 日期datePicker显示
     if(this.newDate){
@@ -60,26 +63,22 @@ export class DateComponent implements OnInit {
         year:moment(this.newDate).year(),
         month:moment(this.newDate).month()+1,
         day:moment(this.newDate).date(),
-      }
-      console.log(this.model)
+      };
     }
   }
 
-  getDate():string{
 
-    // 对象复制
-    if(this.model){
-      const m=JSON.parse(JSON.stringify(this.model));
-      m.month=m.month-1;
-
-      return moment(m).format('YYYY-MM-DDTHH:mm:ss');
-    }
-
-    return '';
+  get model(){
+    return this._model;
   }
 
 
-
+  set model(value){
+    this._model=value;
+    const m=JSON.parse(JSON.stringify(this.model));
+    m.month=m.month-1;
+    this.changeDate.emit(moment(m).format('YYYY-MM-DDTHH:mm:ss'));
+  }
 
 
 

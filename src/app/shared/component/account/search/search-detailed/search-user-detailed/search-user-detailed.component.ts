@@ -62,7 +62,7 @@ export class SearchUserDetailedComponent implements OnInit,OnDestroy {
       console.log(this.searchParams);
 
       // 如果url里面含有 sort，需要手动刷新sort icon 图标
-      if (this.searchParams.sort && typeof this.searchParams.sort === 'string') {
+      if ( typeof this.searchParams.sort === 'string') {
         const w = Sort.parse(this.searchParams.sort);  //w is array of Sort
         console.log(w);
 

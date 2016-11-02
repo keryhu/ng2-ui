@@ -14,46 +14,43 @@
     </div>
 
     <div class="col-sm-2">
-      <md-checkbox *ngIf="showRegisterCheckBox&&isXdidianAdmin"
-                   [(ngModel)]="showRegisterDatePicker">
-        选择注册时间
-      </md-checkbox>
-
-      <md-checkbox *ngIf="showLastLoggedCheckBox&&isXdidianAdmin"
-                   [(ngModel)]="showLastLoggedDatePicker">
-        最近登录时间
-      </md-checkbox>
-
-
+      <label *ngIf="selectedtSearchType=='公司'||selectedtSearchType=='会员'">注册 :</label>
+      <br>
+      <label  *ngIf="selectedtSearchType=='会员'"> 上次登录 :</label>
     </div>
 
     <div class="col-sm-7">
 
-      <span class="selectDate" *ngIf="showRegisterDatePicker">
-         <span class="startDate">起始:
+      <span class="selectDate"
+            *ngIf="selectedtSearchType=='公司'||selectedtSearchType=='会员'">
+        <span class="startDate">起始:
            <app-date #startRegisterDate
-                     [newDate]="urlParamObject?.registerTimeBegin">
+                     [newDate]="urlParamObject?.registerTimeBegin"
+                     (changeDate)="changeDate('registerTimeBegin',$event)">
 
          </app-date></span>
 
        <span class="endDate">结束:
          <app-date #endRegisterDate
-                   [newDate]="urlParamObject?.registerTimeEnd||today">
+                   [newDate]="urlParamObject?.registerTimeEnd||today"
+                   (changeDate)="changeDate('registerTimeEnd',$event)">
 
        </app-date></span>
       </span>
 
       <br>
-      <span class="selectDate" *ngIf="showLastLoggedDatePicker">
+      <span class="selectDate" *ngIf="selectedtSearchType=='会员'">
          <span class="startDate">起始:
            <app-date #startLoggedDate
-                     [newDate]="urlParamObject?.lastLoginTimeBegin">
+                     [newDate]="urlParamObject?.lastLoginTimeBegin"
+                     (changeDate)="changeDate('lastLoginTimeBegin',$event)">
 
          </app-date></span>
 
          <span class="endDate">结束:
            <app-date #endLoggedDate
-                     [newDate]="urlParamObject?.lastLoginTimeEnd||today">
+                     [newDate]="urlParamObject?.lastLoginTimeEnd||today"
+                     (changeDate)="changeDate('lastLoginTimeEnd',$event)">
 
          </app-date>
          </span>
@@ -67,35 +64,15 @@
   </div>
   <hr>
 
-  <div class="row" *ngIf="selectedtSearchType&&selectedtSearchType!='未选择'">
-
-    <md-input style="width: 40%" [placeholder]="placeholdContent"
-              [(ngModel)]="searchContent"
-              (keyup.enter)="search()">
-      <span md-suffix *ngIf="containsSpecialCharacter">
-        <button md-icon-button md-tooltip="特殊字符将被忽略" tooltip-position="below">
-          <md-icon class="md-24">report_problem</md-icon>
-        </button>
-      </span>
-
-    </md-input>
-    <button md-icon-button [disabled]="(!isXdidianAdmin)&&!searchContent"
-            (click)="search() ">
-      <md-icon class="md-24">search</md-icon>
-    </button>
-
-  </div>
 </div>
 
-<app-search-company-detailed #companyDetail *ngIf="selectedtSearchType=='公司'"
-                             [searchParams]="submitedObject">
-
-</app-search-company-detailed>
 
 
-<app-search-user-detailed #userDetail *ngIf="selectedtSearchType=='会员'"
-                          [searchParams]="submitedObject">
 
-</app-search-user-detailed>
+<app-search-page *ngIf="selectedtSearchType=='会员'"
+                 [showSearchInput]="selectedtSearchType&&selectedtSearchType!='未选择'"
+                 [placeholder]="placeholdContent" [indexUrl]="indexUrl"
+                 [searchParams]="submitedObject" [serverUrl]="searchUserServerUrl"
+                 [dataTitle]="userTableTitle">
 
-
+</app-search-page>

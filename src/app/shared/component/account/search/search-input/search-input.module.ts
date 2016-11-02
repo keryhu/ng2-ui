@@ -8,6 +8,7 @@ import { SearchInputComponent } from './search-input.component';
 import {DateModule} from "../../../input";
 import {SearchCompanyDetailedModule} from "../search-detailed/";
 import {SearchUserDetailedModule} from "../search-detailed";
+import {SearchPageModule} from "../search-page";
 
 
 
@@ -16,7 +17,7 @@ import {SearchUserDetailedModule} from "../search-detailed";
 @NgModule({
   imports: [CommonModule,ReactiveFormsModule,DateModule,
     MaterialModule.forRoot(),FormsModule,SearchUserDetailedModule,
-    SearchCompanyDetailedModule],
+    SearchCompanyDetailedModule,SearchPageModule],
   declarations: [SearchInputComponent],
   exports:[SearchInputComponent]
 })
