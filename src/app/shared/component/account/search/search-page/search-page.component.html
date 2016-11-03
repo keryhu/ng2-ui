@@ -1,0 +1,77 @@
+<div class="error-message">
+  {{selectedTimeErrMsg}}
+</div>
+
+<div *ngIf="showSearchInput">
+  <md-input [(ngModel)]="searchContent" style="width: 40%"
+            (keyup.enter)="search()"
+            [placeholder]="placeholder">
+
+
+      <span md-suffix *ngIf="containsSpecialCharacter">
+        <button md-icon-button md-tooltip="特殊字符将被忽略" tooltip-position="below">
+          <md-icon class="md-24">report_problem</md-icon>
+        </button>
+      </span>
+
+  </md-input>
+  <button md-icon-button [disabled]="!(searchContent||isXdidianAdmin)"
+          (click)="search() ">
+    <md-icon class="md-24">search</md-icon>
+  </button>
+</div>
+
+<md-progress-bar *ngIf="isLoading"
+                 mode="indeterminate">
+</md-progress-bar>
+
+<div *ngIf="!isLoading">
+  <p *ngIf="totalItems==0">抱歉，没有查询到任何数据！</p>
+  <div *ngIf="totalItems">
+    <p>一共搜索到{{totalItems}}条相关记录！</p>
+
+    <table class="table  table-hover table-bordered table-sm">
+      <thead>
+      <tr>
+        <th>#</th>
+        <th>
+        <span (click)="allChecked()" class="allChecked">
+          全选</span>/<span (click)="notChecked()" class="allChecked">清空</span>
+        </th>
+        <th *ngFor="let i of dataTitle">
+          {{i.cName}}
+          <app-sort-icon *ngIf="i.sort" (toggleSortName)="toggleSortName($event)"
+                         [sortParam]="i.sortIcon">
+          </app-sort-icon>
+
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let d of data;let n=index" (click)="clickdata(d.id)">
+        <th scope="row">{{n+1}}</th>
+        <th>
+          <md-checkbox></md-checkbox>
+        </th>
+        <td *ngFor="let i of dataTitle">
+          {{d[i.name]}}
+        </td>
+
+      </tr>
+
+      </tbody>
+    </table>
+    <pagination [totalItems]="totalItems" [(ngModel)]="currentPage"
+                (pageChanged)="pageChange($event)"
+                [itemsPerPage]="pageSize"
+                [boundaryLinks]="true"
+                [maxSize]="5"
+                firstText="第一页"
+                lastText="最后一页"
+                [rotate]="false"
+                previousText="上一页"
+                nextText="下一页">
+    </pagination>
+  </div>
+</div>
+

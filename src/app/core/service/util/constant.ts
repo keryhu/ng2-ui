@@ -18,6 +18,7 @@ export class Constant{
   public static refreshTokenSaveUrl:string='/api/storeRefreshToken';
   public static refreshTokenGetUrl:string='/api/getRefreshToken';
   public static authUrl: string=`http://${hostname()}:9999/uaa/oauth/token`;
+  //下面这个地址bu xing
   //public static authUrl: string='/api/auth-server/uaa/oauth/token';
   // 修改名字的时候,提交后台,查看是否可以修改名字or 保存的post url
   public static validateNameCanModifyOrSaveUrl:string='/api/user/users/edit/name';

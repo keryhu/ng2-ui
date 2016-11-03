@@ -2,17 +2,9 @@ import {Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
 import * as moment from 'moment';
 import {AuthService,Constant} from "../../../../../core";
 
-import {allSearchType} from "../search.interface";
+import {allSearchType, dataTitle} from "../search.interface";
 import {ServiceSearchContent} from "../service-search.interface";
 import {Sort} from "../sort";
-
-// 当搜索的时候，需要用table显示结果，table 的 titile由哪些参数组成，就是这个
-export interface dataTitle{
-  name:string;     // title name
-  cName:string;     // table title name 中文名字
-  sort:boolean;    // 是否需要sort
-  sortIcon?:Sort;    //显示sort对象
-}
 
 
 @Component({
@@ -39,6 +31,7 @@ export class SearchInputComponent implements OnInit {
   // 传递给 search-page 的 主url，以后url刷新就是靠这个
   private indexUrl="/service/home";
   private searchUserServerUrl:string;
+  private searchCompanyServerUrl:string;
 
   // 传递给user  search page 的 table title
   private userTableTitle:Array<dataTitle>=[
@@ -48,6 +41,13 @@ export class SearchInputComponent implements OnInit {
       sortIcon: new Sort('lastLoginTime','none')}
   ];
 
+  private companyTableTitle:Array<dataTitle>=[
+    {name:'name',cName:'姓名',sort: true,sortIcon: new Sort('name','none')},
+    {name:'registerTime',cName:'注册时间' ,sort:true,
+      sortIcon: new Sort('registerTime','none')},
+    {name:'checked',cName:'审核是否通过',sort:true,
+      sortIcon: new Sort('checked','none')}
+  ]
 
   // 用户提供的搜索条件
   private submitedObject: ServiceSearchContent = {};
@@ -110,9 +110,11 @@ export class SearchInputComponent implements OnInit {
   seUserServertUrl(): void {
     if (this.isXdidianAdmin) {
       this.searchUserServerUrl = Constant.adminQueryUserWithPage;
+      this.searchCompanyServerUrl=Constant.adminQueryCompanyWithPages;
     }
     else {
       this.searchUserServerUrl = Constant.serviceQueryUserWithPage;
+      this.searchCompanyServerUrl=Constant.serviceQueryCompanyWithPages;
     }
   }
 

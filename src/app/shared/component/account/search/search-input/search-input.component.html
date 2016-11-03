@@ -73,6 +73,15 @@
                  [showSearchInput]="selectedtSearchType&&selectedtSearchType!='未选择'"
                  [placeholder]="placeholdContent" [indexUrl]="indexUrl"
                  [searchParams]="submitedObject" [serverUrl]="searchUserServerUrl"
-                 [dataTitle]="userTableTitle">
+                 [dataTitle]="userTableTitle" [showDialog]="true">
+
+</app-search-page>
+
+
+<app-search-page *ngIf="selectedtSearchType=='公司'"
+                 [showSearchInput]="selectedtSearchType&&selectedtSearchType!='未选择'"
+                 [placeholder]="placeholdContent" [indexUrl]="indexUrl"
+                 [searchParams]="submitedObject" [serverUrl]="searchCompanyServerUrl"
+                 [dataTitle]="companyTableTitle" [showDialog]="true">
 
 </app-search-page>

@@ -43,3 +43,5 @@ dataTitle----   data table title 的名字，是否包含有sort，sort的默认
 
      
      
+     checkbox ,是否需要，以后再改，目前无法确定做法，需要多个需求确定
+     还有点击某一行，促发什么事件，暂时空缺，因为dialog，还有bug
