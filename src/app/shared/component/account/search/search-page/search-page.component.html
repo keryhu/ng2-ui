@@ -3,9 +3,10 @@
 </div>
 
 <div *ngIf="showSearchInput">
-  <md-input [(ngModel)]="searchContent" style="width: 40%"
-            (keyup.enter)="search()"
-            [placeholder]="placeholder">
+  <div class="searchInput">
+    <md-input [(ngModel)]="searchContent" style="width: 40%"
+              (keyup.enter)="search()"
+              [placeholder]="placeholder">
 
 
       <span md-suffix *ngIf="containsSpecialCharacter">
@@ -14,11 +15,14 @@
         </button>
       </span>
 
-  </md-input>
-  <button md-icon-button [disabled]="!(searchContent||isXdidianAdmin)"
-          (click)="search() ">
-    <md-icon class="md-24">search</md-icon>
-  </button>
+    </md-input>
+    <button md-icon-button [disabled]="!(searchContent||isXdidianAdmin)"
+            (click)="search() ">
+      <md-icon class="md-24">search</md-icon>
+    </button>
+  </div>
+
+
 </div>
 
 <md-progress-bar *ngIf="isLoading"

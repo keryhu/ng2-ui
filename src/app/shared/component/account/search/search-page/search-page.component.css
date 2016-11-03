@@ -1,8 +1,17 @@
 .error-message {
   color: #F44336;
   font-weight:900;
+  text-align: center;
 }
 
 .pageNum{
+  text-align: center;
+}
+
+.searchInput{
+  text-align: center;
+}
+
+p{
   text-align: center;
 }

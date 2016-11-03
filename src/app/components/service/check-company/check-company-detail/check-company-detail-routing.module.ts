@@ -12,6 +12,7 @@ import {Routes, RouterModule} from "@angular/router";
 import {SpinnerGuard} from "../../../../core";
 
 import {CheckCompanyDetailComponent} from "./check-company-detail.component";
+import {CheckCompanyDetailResolveService} from "./check-company-detail-resolve.service";
 
 
 const checkCompanyDetailRoutes: Routes=[
@@ -19,6 +20,9 @@ const checkCompanyDetailRoutes: Routes=[
     path: '',
     component: CheckCompanyDetailComponent,
     canActivate:[SpinnerGuard],
+    resolve:{
+      companyRegisteredInfo:CheckCompanyDetailResolveService
+    }
   }
 ];
 

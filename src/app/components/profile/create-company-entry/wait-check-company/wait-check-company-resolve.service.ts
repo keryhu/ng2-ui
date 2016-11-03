@@ -25,7 +25,7 @@ export class WaitCheckCompanyResolve implements Resolve<Observable<any>> {
 
     return this.waitCheckCompanyService.getNewCompanyInfo()
       .do(e=>{
-        if(Object.is(e,undefined)){
+        if(typeof e=='undefined'){
           this.router.navigate(['/profile/create-company']);
           this.spinner.stop();
         }

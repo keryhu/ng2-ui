@@ -8,3 +8,7 @@
 export * from './check-company-detail.component';
 export * from './check-company-detail-routing.module';
 export * from './check-company-detail.module';
+
+
+export * from './check-company-detail.service';
+export * from './check-company-detail-resolve.service';

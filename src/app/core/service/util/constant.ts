@@ -45,7 +45,8 @@ export class Constant{
   public static emailExistQueryUrl:string='/api/user/users/query/isEmailExist';
   public static phoneExistQueryUrl:string='/api/user/users/query/isPhoneExist';
   public static accountExistQueryUrl:string='/api/user/users/query/isLoginNameExist';
-  public static companyNameExistQueryUrl:string='/api/company/company/isCompanyExist';
+  public static companyNameExistQueryUrl:string=
+    '/api/company/company/findCompanyExistByName';
   public static emailStatusQueryUrl:string='/api/user/users/query/emailStatus';
 
 
@@ -95,6 +96,7 @@ export class Constant{
 
   public static adminQueryCompanyWithPages=
     '/api/company/admin/queryCompanyWithPage';
+  public static findCompanyExistById='/api/company/company/findCompanyExistById'
 
   //xdidian  service /admin  url
 
@@ -104,6 +106,10 @@ export class Constant{
 
   // check company
   public static serviceQueryUncheckdCompanyUrl='/api/company/service/queryUncheckedCompanyWithPage';
+
+
+  //  新地点的工作人员,审核后，post给后台保存审核结果的rest url
+  public static serviceCheckCompanyUrl='/api/company/service/check-company';
 
   //refreshToken 过期时间   单位为 秒   10 days
   public static refreshToken_expired_in:number=864000;
