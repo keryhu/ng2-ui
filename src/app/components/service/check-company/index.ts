@@ -5,8 +5,11 @@
  */
 
 
-export * from './check-company.service';
-export * from './check-company-resolve.service';
+
 export * from './check-company-routing.module';
 export * from './check-company.component';
 export * from './check-company.module';
+
+
+export * from './check-company-home';
+export * from './check-company-detail';

@@ -3,17 +3,12 @@
  * @date : 2016/10/9 下午2:53
  * @author : keryHu keryhu@hotmail.com
  -->
-<div class="container-fluid">
-  <div class="row ">
-    <div class="col-md-10 col-sm-10 clo-xd-10  offset-md-1 offset-sm-1 ">
-      <h2 class="text-lg-center">审核公司资料</h2>
-      <ul class="list-group">
-        <li class="list-group-item list-group-item-action"
-            *ngFor="let m of ms" (click)="clickCompany(m)">{{m}}
-        </li>
-      </ul>
-    </div>
-  </div>
+
+
+<div class="home">
+  <h1>审核公司资料</h1>
+  <hr>
+  <router-outlet></router-outlet>
 </div>
 
 

@@ -75,7 +75,7 @@ export class SearchPageComponent implements OnInit,OnDestroy {
   @Input() showDialog:boolean;
 
   // 当某一行的checkbox 被选择，发送该id给前台。
- // @Output() selectId = new EventEmitter<string>();
+  @Output() getSelectId = new EventEmitter<string>();
 
 
 
@@ -350,6 +350,7 @@ export class SearchPageComponent implements OnInit,OnDestroy {
   clickdata(data){
     //显示data 的id
     console.log(data);
+    this.getSelectId.emit(data);
     if(this.showDialog==true){
       console.log('show dialog')
     }

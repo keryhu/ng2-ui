@@ -6,11 +6,6 @@
  */
 
 import {Component,OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-
-import {SpinnerService} from "../../../core";
-
-
 
 @Component({
   selector: 'app-check-company',
@@ -18,23 +13,14 @@ import {SpinnerService} from "../../../core";
   styleUrls: ['./check-company.component.css']
 })
 export class CheckCompanyComponent implements OnInit {
-  private unCheckedCompany:Array<Object>;
 
-  private ms=["abc","edf","ghi","jkl","mno"]
 
-  constructor( private route: ActivatedRoute, private spinner: SpinnerService) {
+  constructor( ) {
   }
 
   ngOnInit(): void {
-    this.spinner.stop();
-    this.unCheckedCompany=this.route.snapshot.data['unCheckedCompany'];
-    console.log(this.unCheckedCompany);
+
   }
 
-  //当点击company 展开细节的时候，促发的事件
-  clickCompany(m){
-
-    console.log(m);
-  }
 
 }

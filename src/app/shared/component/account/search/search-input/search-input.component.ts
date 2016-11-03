@@ -42,7 +42,7 @@ export class SearchInputComponent implements OnInit {
   ];
 
   private companyTableTitle:Array<dataTitle>=[
-    {name:'name',cName:'姓名',sort: true,sortIcon: new Sort('name','none')},
+    {name:'name',cName:'公司名字',sort: true,sortIcon: new Sort('name','none')},
     {name:'registerTime',cName:'注册时间' ,sort:true,
       sortIcon: new Sort('registerTime','none')},
     {name:'checked',cName:'审核是否通过',sort:true,

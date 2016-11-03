@@ -12,17 +12,24 @@ import {NgModule} from "@angular/core";
 
 import {SpinnerGuard} from "../../../core";
 import {CheckCompanyComponent} from "./check-company.component";
-import {CheckCompanyResolve} from "./check-company-resolve.service";
 
 const checkCompanyRoutes: Routes=[
   {
     path: '',
     component: CheckCompanyComponent,
     canActivate:[SpinnerGuard],
-    resolve:{
-      unCheckedCompany:CheckCompanyResolve
-    }
-
+    children:[
+      {
+        path:'',
+        //component:CheckCompanyHomeComponent,
+        loadChildren: 'app/components/service/check-company/check-company-home/check-company-home.module#CheckCompanyHomeModule'
+      },
+      {
+        path:':id',
+        //component:CheckCompanyHomeComponent,
+        loadChildren: 'app/components/service/check-company/check-company-detail/check-company-detail.module#CheckCompanyDetailModule'
+      }
+    ]
   }
 ];
 

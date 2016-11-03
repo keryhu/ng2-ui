@@ -11,7 +11,7 @@ import {FormsModule, ReactiveFormsModule}         from '@angular/forms';
 import {RouterModule} from "@angular/router";
 
 
-import {AccountActivateModule, SearchModules,
+import {AccountActivateModule,
   DateModule,SortIconModule} from "./component";
 
 import {DateParseModule} from "./pipe";
@@ -27,8 +27,8 @@ import {SearchBarModule} from "../core";
 
   declarations: [],
 
-  exports: [CommonModule, ReactiveFormsModule, FormsModule, AccountActivateModule,
-    SearchModules,DateModule,SearchBarModule,DateParseModule,SortIconModule
+  exports: [CommonModule, ReactiveFormsModule, FormsModule, AccountActivateModule
+    ,DateModule,SearchBarModule,DateParseModule,SortIconModule
 
   ]
 

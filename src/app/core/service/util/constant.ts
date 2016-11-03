@@ -101,7 +101,9 @@ export class Constant{
   public static adminQueryServiceByName='/api/user/admin/queryByName';
   public static adminDelServiceById= '/api/user/admin/delById';
   public static adminAddServiceUrl='/api/user/admin/add-service';
-  public static serviceCheckCompanyResolveUrl='/api/company/service/check-company-resolve';
+
+  // check company
+  public static serviceQueryUncheckdCompanyUrl='/api/company/service/queryUncheckedCompanyWithPage';
 
   //refreshToken 过期时间   单位为 秒   10 days
   public static refreshToken_expired_in:number=864000;
