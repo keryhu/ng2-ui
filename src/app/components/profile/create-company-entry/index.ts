@@ -12,3 +12,4 @@ export * from './create-company-entry.module';
 
 export * from './create-company';
 export * from './wait-check-company';
+export * from './check-company-edit';

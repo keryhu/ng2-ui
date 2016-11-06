@@ -6,7 +6,7 @@
 
 
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
+import {Http, Response} from "@angular/http";
 
 import {RequestService,Constant} from "../../../../core";
 
@@ -18,11 +18,26 @@ export class CheckCompanyDetailService{
   }
 
 
-  // 当工作人员审核完材料后，提交给后台的post
-  postCheckCompanyRest(data){
-    const url = Constant.serviceCheckCompanyUrl;
-    return this.http.post(url, JSON.stringify(data),
-      {headers: this.request.getJsonHeaders()})
-      .map(res=>res.json());
+  // 当工作人员进入审核页面后，搜索所有未审核的注册公司，当点击某一个公司详情
+  //的时候，通过companyId，来获取他的提交材料
+
+  newCompanyInfoByCompanyIdUrl(data){
+    const url = Constant.serviceQueryNewCompanyInfoByCompanyIdUrl;
+
+    return this.http.get(url, this.request.getAuthOptions())
+      .map((res: Response)=> {
+        console.log(res);
+        if(res['_body']==''){
+          return undefined;
+        }
+        else {
+          return res.json();
+        }
+      })
+      .catch(this.request.defaultHandlerError);
+
   }
+
+
+
 }

@@ -78,7 +78,7 @@ export class CheckMethodComponent implements OnInit,OnDestroy {
 
           console.log(e);
           if(e.method){
-            this.router.navigate(['/recover/check-code'],{
+            this.router.navigate(['/recover/check-company-edit-code'],{
               queryParams: e
             });
             sessionStorage.setItem(Constant.recoverCountDown,Constant.clickCoolingSeconds.toString())
@@ -87,7 +87,7 @@ export class CheckMethodComponent implements OnInit,OnDestroy {
           // 说明此账号之前已经请求过类似的  找回密码。那么直接导航到相应的页面即可。
           if(e.resendToken){
 
-            this.router.navigate(['/recover/check-code'],{
+            this.router.navigate(['/recover/check-company-edit-code'],{
               queryParams:{
                 method: m.method,
                 account:m.account,

@@ -10,3 +10,4 @@ export * from './signup';
 export * from './login';
 export * from './email-activate';
 export * from './profile';
+export * from './profile/create-company-entry/check-company-edit';

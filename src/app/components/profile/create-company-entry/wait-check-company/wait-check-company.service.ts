@@ -27,6 +27,7 @@ export class WaitCheckCompanyService{
 
     return this.http.get(url, this.request.getAuthOptions())
       .map((res: Response)=> {
+        console.log(res);
         if(res['_body']==''){
           return undefined;
         }

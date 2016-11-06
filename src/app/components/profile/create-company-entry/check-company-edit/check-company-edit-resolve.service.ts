@@ -23,7 +23,7 @@ import {CheckCompanyTemplateService} from "../../../../shared";
 
 
 @Injectable()
-export class CreateCompanyResolve implements Resolve<Observable<any>> {
+export class CheckCompanyEditResolve implements Resolve<Observable<any>> {
   constructor(private checkCompanyTemplateService:CheckCompanyTemplateService,
               private router: Router,private spinner: SpinnerService) {
 
@@ -31,23 +31,6 @@ export class CreateCompanyResolve implements Resolve<Observable<any>> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<any>|any {
 
-    return this.checkCompanyTemplateService.getCheckCompanyCommonInfo()
-      .do(e=>{
-        // 这里，如果
-        if(e['newCompanyErrMsg'].indexOf('已经提交过')!=-1){
-          this.router.navigate(['/profile/create-company/wait-check-company']);
-          // 这里必需要设置，这个stop，要不然，页面会一直显示 spinner
-          this.spinner.stop();
-        }
-        // 这里，如果,被拒绝，
-        else if(e['newCompanyErrMsg'].indexOf('不符合要求')!=-1){
-          //check-company-edit
-          console.log('redirect to reject page ');
-          this.router.navigate(['/profile/create-company/check-company-edit']);
-          // 这里必需要设置，这个stop，要不然，页面会一直显示 spinner
-          this.spinner.stop();
-        }
-      })
-
+    return this.checkCompanyTemplateService.getCheckCompanyCommonInfo();
   }
 }

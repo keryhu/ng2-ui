@@ -25,11 +25,11 @@ const recoverRoutes: Routes = [
       },
       {
         path: 'method',
-        loadChildren: 'app/components/recover/check-method/check-method.module#CheckMethodModule'
+        loadChildren: 'app/components/recover/check-company-edit-method/check-company-edit-method.module#CheckMethodModule'
       },
       {
-        path: 'check-code',
-        loadChildren: 'app/components/recover/check-code/check-code.module#CheckCodeModule'
+        path: 'check-company-edit-code',
+        loadChildren: 'app/components/recover/check-company-edit-code/check-company-edit-code.module#CheckCodeModule'
       },
       {
         path: 'new-password',

@@ -9,7 +9,7 @@ import {ActivatedRoute} from "@angular/router";
 import {Title} from "@angular/platform-browser";
 
 import {SpinnerService} from "../../../../core";
-import {CompanyType} from "../../../../shared";
+import {CheckCompanyType} from "../../../../shared";
 
 
 
@@ -25,7 +25,7 @@ export class WaitCheckCompanyComponent implements OnInit {
   private companyPreview: boolean = false;
 
   // 传给后台，具体的类型。是新建公司的时候首次提交，还是后来的只读，从这个区分。
-  private companyType:CompanyType=CompanyType.AllRead;
+  private checkCompanyType:CheckCompanyType=CheckCompanyType.AllRead;
 
   constructor( private route: ActivatedRoute, private spinner: SpinnerService,
                private titileService: Title) {

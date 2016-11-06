@@ -87,8 +87,9 @@ export class Constant{
 
   // create company
   public static createCompanyUrl='/api/company/company/createCompany';
-  public static createCompanyResolveUrl='/api/company/company/createCompanyResolveInfo';
-  public static getUnCheckdCompanyUrl='/api/company/company/findUncheckedCompanyBySelf';
+  public static getCheckCompanyCommonInfoUrl='/api/company/company/getCheckCompanyCommonInfo';
+  public static getUnCheckdCompanyUrl=
+    '/api/company/company/findUncheckedCompanyBySelf';
 
   // 新地点的客服人员，在首页搜索 数据库中的公司信息。
   public static serviceQueryCompanyWithPages=
@@ -104,12 +105,14 @@ export class Constant{
   public static adminDelServiceById= '/api/user/admin/delById';
   public static adminAddServiceUrl='/api/user/admin/add-service';
 
-  // check company
+  // check-company-edit company
   public static serviceQueryUncheckdCompanyUrl='/api/company/service/queryUncheckedCompanyWithPage';
 
 
-  //  新地点的工作人员,审核后，post给后台保存审核结果的rest url
-  public static serviceCheckCompanyUrl='/api/company/service/check-company';
+  //  新地点的工作人员,进入审核页面后，搜索所有未审核的注册公司，当点击某一个公司详情
+  //的时候，通过companyId，来获取他的提交材料de url
+  public static serviceQueryNewCompanyInfoByCompanyIdUrl=
+    '/api/company/service/queryNewCompanyInfoByCompanyId';
 
   //refreshToken 过期时间   单位为 秒   10 days
   public static refreshToken_expired_in:number=864000;

@@ -28,7 +28,7 @@ export class CheckCompanyDetailResolveService implements Resolve<Observable<any>
   resolve(route: ActivatedRouteSnapshot): Observable<any>|any{
 
     let id = route.params['id'];
-    const url = Constant.serviceQueryNewCompanyInfoByCompanyId;
+    const url = Constant.serviceQueryNewCompanyInfoByCompanyIdUrl;
     const params = new URLSearchParams();
     params.set('companyId', id);
 
@@ -43,6 +43,7 @@ export class CheckCompanyDetailResolveService implements Resolve<Observable<any>
         }
       })
       .catch(this.request.defaultHandlerError);
+
   }
 
 }

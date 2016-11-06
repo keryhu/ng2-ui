@@ -77,7 +77,7 @@ export class CheckCodeComponent implements OnInit ,OnDestroy {
   resendSuccess(obj:any){
     if(typeof obj=='object'&&obj.hasOwnProperty('account')){
       //转到email激活的页面。
-      this.router.navigate(['/recover/check-code'], {
+      this.router.navigate(['/recover/check-company-edit-code'], {
         queryParams: obj
       });
     }

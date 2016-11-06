@@ -35,7 +35,7 @@ export class DateParsePipe implements PipeTransform {
         return moment(value).format(args);
       }
       else if(args==='birthday'){
-        return moment(value).format('M月DD日') ;
+        return moment(value).format('M月D日') ;
       }
       else if(typeof args==='undefined'){
         return moment(value).format('YYYY-MM-DD HH:mm:ss');

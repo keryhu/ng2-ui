@@ -1,0 +1,38 @@
+.error-message {
+  color: #F44336;
+  font-weight:900;
+}
+.reject-message{
+  color: cornflowerblue;
+  font-weight:900;
+  margin-bottom: 5px;
+  margin-left: 16px;
+}
+
+
+.item-title{
+  font-weight:900;
+  font-size: 150%;
+}
+.upload{
+  margin-left: 12%;
+}
+
+.upload .uploadButton{
+  margin-left: 26%;
+}
+
+md-input{
+  width: 300px;
+}
+
+md-card{
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 16px;
+}
+
+.full-width{
+  width: 100%;
+  margin-top: 16px;
+}

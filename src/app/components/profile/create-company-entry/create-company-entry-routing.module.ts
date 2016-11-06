@@ -24,9 +24,13 @@ const createCompanyEntryRoutes: Routes = [
         loadChildren: 'app/components/profile/create-company-entry/create-company/create-company.module#CreateCompanyModule'
       },
       {
-        path: 'wait-check',
+        path: 'wait-check-company',
         loadChildren: 'app/components/profile/create-company-entry/wait-check-company/wait-check-company.module#WaitCheckCompanyModule'
       },
+      {
+        path: 'check-company-edit',
+        loadChildren: 'app/components/profile/create-company-entry/check-company-edit/check-company-edit.module#CheckCompanyEditModule'
+      }
     ]
 
   }

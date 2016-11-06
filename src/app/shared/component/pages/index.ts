@@ -7,4 +7,4 @@
 
 export * from './access-denied';
 export * from './not-found';
-export * from './uncheck-company';
+export * from './check-company-template';

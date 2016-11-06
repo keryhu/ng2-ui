@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 
 
 import {SpinnerService} from "../../../core";
 import {TokenObj} from "../../../core/service/auth/auth.interface";
+
 
 @Component({
   selector: 'app-profile-home',
@@ -31,7 +32,7 @@ export class ProfileHomeComponent implements OnInit {
     if(m.name){
       this.name=m.name;
     }
-
   }
+
 
 }

@@ -3,20 +3,16 @@
  * @date : 16/9/12 下午6:17
  * @author : keryHu keryhu@hotmail.com
  -->
-<div class="container-fluid">
-  <div class="row ">
-    <div class="col-md-8 col-sm-8 clo-xd-8  offset-md-2 offset-sm-2 ">
-      <h3 class="title">创建公司账户</h3>
-      <div *ngIf="errMsg" class="alert alert-warning text-lg-center" role="alert">
-        <strong>{{errMsg}}</strong>
-      </div>
-
-      <hr>
-      <app-uncheck-company [companyType]="companyType"
-                           [submitUrl]="url"
-                           [urlResolveName]="urlResolveName">
-
-      </app-uncheck-company>
-    </div>
-  </div>
+<h3 class="title">创建公司账户</h3>
+<div *ngIf="errMsg" class="alert alert-warning text-lg-center" role="alert">
+  <strong>{{errMsg}}</strong>
 </div>
+
+<hr>
+
+<app-check-company-template [checkCompanyType]="checkCompanyType"
+                            [urlResolveName]="urlResolveName"
+                            [submitUrl]="url">
+
+</app-check-company-template>
+

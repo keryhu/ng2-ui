@@ -4,13 +4,16 @@
  * @author : keryHu keryhu@hotmail.com
  */
 
-import {Component, OnInit, OnDestroy,Input} from "@angular/core";
-import {Observable} from "rxjs";
-import {ActivatedRoute} from "@angular/router";
-
+import {Component, OnInit, OnDestroy} from "@angular/core";
+import {Observable, Subscription} from "rxjs";
 import {AddressService} from "./address.service";
-import {FormGroup, FormControl} from "@angular/forms";
 
+// 建立一个地址信息的基本单位，由 code 和name组成。
+export interface AddressItem {
+  name: string;
+  code: string;
+
+}
 
 @Component({
   selector: 'app-address',
@@ -19,146 +22,98 @@ import {FormGroup, FormControl} from "@angular/forms";
 })
 export class AddressComponent implements OnInit,OnDestroy {
 
-  private form: FormGroup;
-  private province = new FormControl('', []);    // 省，直辖市
-  private city = new FormControl('', []);         //  地级市
-  private county = new FormControl('', []);    //   县
-
-  private selectedProvinceCode: string;   //当前 被 选择的省份的  code 号码
   private defaultProvince: string = '上海市';
 
-  private cities: Observable<Array<string>>;      // 显示在前台的  地级市
-  private counties: Observable<Array<string>>;    //  显示在前台的  县
+  private provinces: Observable<Array<AddressItem>>;
+  private cities: Observable<Array<AddressItem>>;      // 显示在前台的  地级市
+  private counties: Observable<Array<AddressItem>>;    //  显示在前台的  县
 
-  private provinces: Array<string>;
-  private provincesContainsCode: Array<Object>;
+  private selectedProvince: Observable<AddressItem>;
+  private selectedCity: Observable<AddressItem>;
+  private selectedCounty: Observable<AddressItem>;
+  private sub:Subscription;
 
-  constructor(private addressService: AddressService, private route: ActivatedRoute) {
+
+
+  constructor(private addressService: AddressService) {
   }
 
 
   ngOnInit(): void {
-    this.form = new FormGroup({
-      province: this.province,
-      city: this.city,
-      county: this.county
-    });
 
+    // 获取远程的省份，给前台。
+    this.provinces = this.addressService.getProvinces();
 
-    this.provincesContainsCode = this.route.snapshot.data[this.urlResolveName]['provinces'];
+    this.selectedProvince=this.addressService
+      .getProvinceByProvinceName(this.defaultProvince);
 
-    this.provinces = this.provincesContainsCode.map(e=>e['name']);
+    this.cities = this.addressService
+      .getCities(this.selectedProvince);
 
-    //初始化页面，将默认、省份的code取出来
-    this.selectedProvinceCode = this.getSelectedProvinceCode(this.defaultProvince);
+    this.selectedCity=this.cities.map(e=>e[0]);
 
-    // 设置默认的省份,地级市，县
-    this.province.patchValue(this.defaultProvince);
+    this.counties=this.addressService
+      .getCounties(this.selectedCity);
 
-    // 初始化，获取所有的地级市名单。（根据选择的 省份名字）
-
-    this.cities = this.getCities();
-
-    // 初始化页面的时候，初始化 县
-    this.counties = this.getCountiesByDefaultCity();
+    this.selectedCounty=this.counties.map(e=>e[0]);
 
   }
 
-  //需要使用 comopany 组件的 前台 路由 resolve 的名字，例如createCompany  routing resolve
-  // 传递过来的名字。如果前台直接传递 boject，那么就不需要这个名字了。
-  @Input() urlResolveName: string;
 
-
+  // Province 更改促发的事件
   onProvinceChange(value: string) {
+    console.log(value);
 
-    this.selectedProvinceCode = this.getSelectedProvinceCode(value);
-    this.cities = this.getCities();
-    this.counties = this.getCountiesByDefaultCity();
+    this.selectedProvince=this.addressService
+      .getProvinceByProvinceName(value);
 
+    this.cities = this.addressService
+      .getCities(this.selectedProvince);
+
+    this.selectedCity=this.cities.map(e=>e[0]);
+
+    this.counties=this.addressService
+      .getCounties(this.selectedCity);
+
+    this.selectedCounty=this.counties.map(e=>e[0]);
   }
 
-  // 通过，选择的 province name，返回此name 的code
-  getSelectedProvinceCode(name: string): string {
-
-    return this.provincesContainsCode
-      .filter(e=>e['name'] === name)[0]['code'];
-
-  }
-
+  // city 更改促发的事件
   onCityChange(value: string) {
 
-    console.log(value);
-    this.counties = this.getCountiesBySelectedCity(value);
-    //这个必需
-    this.city.patchValue(value);
+    this.selectedCity=this.addressService
+      .getCityByCityNameAndProvince(this.selectedProvince,value);
+
+    this.counties=this.addressService
+      .getCounties(this.selectedCity);
+
+    this.selectedCounty=this.counties.map(e=>e[0]);
   }
 
-
-  //查询地级市
-
-  private getCities(): Observable<Array<string>> {
-    return this.addressService.getCities(this.selectedProvinceCode)
-      .map(e=> {
-        const m: Array<string> = [];
-        e.forEach(w=> {
-          m.push(w['name']);
-        });
-        //下面这个必需
-        this.city.patchValue(m[0]);
-        return m;
-      });
+  onCountyChange(value:string){
+     this.selectedCounty=Observable.of({
+       //这里的code，后续不需要再次被调用，所以现在随便些写一个，只要name能够获取即可
+       name:value,code:'0000'
+     })
   }
 
-  // 通过客户选择  的city，来 获取县的名单，这个使用在，用在 选择 地级市后，刷新 县的名单
-  private getCountiesBySelectedCity(cityName: string): Observable<Array<string>> {
+  // 获取用户取得的最新的 地址数据，方便前台获取，注意这个返回的结果是一个object
+  // 分别为【省份，地级市，县】
+  getAddressArray():Observable<string>{
 
-    return this.getSelectedCityCode(cityName)
-      .switchMap(e=>this.addressService.getCounties(e))
-      .map(e=> {
-        const m: Array<string> = [];
-        e.forEach(w=> m.push(w['name']));
-        //下面这个必需
-        this.county.patchValue(m[0]);
-        return m;
-      });
-
+    return Observable.combineLatest(
+      this.selectedProvince.map(e=>e.name),
+      this.selectedCity.map(e=>e.name),
+      this.selectedCounty.map(e=>e.name)
+    )
+      .map(e=>`${e[0]},${e[1]},${e[2]}`);
   }
-
-  //通过city name  返回 city 的code 的 Observable<string>
-  private getSelectedCityCode(name: string): Observable<string> {
-    return this.addressService.getCities(this.selectedProvinceCode)
-      .map(e=>e.filter(w=>w['name'] === name)[0]['code']);
-
-  }
-
-  // 通过默认的 city（也就是第一个city，来获取 县的名单，使用在  页面初始化和更新省份名单的时候）
-  private getCountiesByDefaultCity(): Observable<Array<string>> {
-    return this.addressService.getCities(this.selectedProvinceCode)
-      .switchMap(e=>this.addressService.getCounties(e[0]['code']))
-      .map(e=> {
-        const m: Array<string> = [];
-        e.forEach(w=> m.push(w['name']));
-        //下面这个必需
-        this.county.patchValue(m[0]);
-        return m;
-      });
-  }
-
-
-  getData(): Object {
-    const data = this.form.value;
-
-    return {
-      province: data.province,
-      city: data.city,
-      county: data.county
-    };
-
-  }
-
 
   ngOnDestroy(): void {
-
+    if(typeof this.sub!='undefined'){
+      this.sub.unsubscribe();
+    }
   }
+
 
 }

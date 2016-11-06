@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 
 import {SpinnerService} from "../../core";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -11,13 +12,13 @@ import {SpinnerService} from "../../core";
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private titleService: Title, private spinner: SpinnerService) { }
+  constructor(private titleService: Title, private spinner: SpinnerService) {
+  }
 
 
   ngOnInit() {
     this.setTitle();
     this.spinner.stop();
-
 
   }
 

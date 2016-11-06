@@ -7,3 +7,4 @@
 
 export * from './create-company.component';
 export* from './create-company.module';
+export * from './create-company-resolve.service';
