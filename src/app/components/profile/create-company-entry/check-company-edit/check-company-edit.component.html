@@ -1,8 +1,11 @@
-<p>
-  check works!
-</p>
+<div>
+  <div class="alert alert-info text-lg-center" role="alert">
+    {{errMsg}}
+  </div>
+</div>
 <app-check-company-template [urlResolveName]="urlResolveName"
                             [checkCompanyType]="checkCompanyType"
-                            [companyInfo]="newCompanyInfo">
+                            [submitUrl]="url"
+                            [companyInfo]="checkCompanyForCompanyResolve">
 
 </app-check-company-template>

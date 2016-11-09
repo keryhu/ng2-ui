@@ -8,7 +8,8 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
 import {CheckCompanyEditComponent} from "./check-company-edit.component";
-import {CheckCompanyEditResolve} from "./check-company-edit-resolve.service";
+import {CheckCompanyForNameResolve} from "./check-company-for-name-resolve.service";
+import {CheckCompanyForCompanyResolve} from "./check-company-for-company-resolve";
 
 
 const checkCompanyEditRoutes: Routes = [
@@ -16,7 +17,8 @@ const checkCompanyEditRoutes: Routes = [
     path: '',
     component: CheckCompanyEditComponent,
     resolve: {
-      checkCompanyEditResolve: CheckCompanyEditResolve
+      checkCompanyForNameResolve: CheckCompanyForNameResolve,
+      checkCompanyForCompanyResolve:CheckCompanyForCompanyResolve
     }
 
   }

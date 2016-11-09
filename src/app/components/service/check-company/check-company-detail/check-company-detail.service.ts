@@ -18,23 +18,24 @@ export class CheckCompanyDetailService{
   }
 
 
-  // 当工作人员进入审核页面后，搜索所有未审核的注册公司，当点击某一个公司详情
-  //的时候，通过companyId，来获取他的提交材料
 
-  newCompanyInfoByCompanyIdUrl(data){
-    const url = Constant.serviceQueryNewCompanyInfoByCompanyIdUrl;
 
-    return this.http.get(url, this.request.getAuthOptions())
-      .map((res: Response)=> {
-        console.log(res);
-        if(res['_body']==''){
-          return undefined;
+  // 将 审核的结果，提交给后台
+  submitCheckCompany(data){
+    const url=Constant.serviceCheckCompanyPostUrl;
+
+    return this.http.post(url, JSON.stringify(data),
+      {headers: this.request.getAuthHeaders()})
+      .map(res=>res.json())
+      .map(e=>{
+        if(e.status==500){
+          const m=JSON.parse(e['_body']);
+
+           console.log(m)
         }
-        else {
-          return res.json();
-        }
-      })
-      .catch(this.request.defaultHandlerError);
+        return e;
+      });
+
 
   }
 

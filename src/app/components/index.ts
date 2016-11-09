@@ -11,3 +11,6 @@ export * from './login';
 export * from './email-activate';
 export * from './profile';
 export * from './profile/create-company-entry/check-company-edit';
+
+
+export * from './re';

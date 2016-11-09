@@ -1,7 +1,114 @@
-
-
 <app-check-company-template [checkCompanyType]="checkCompanyType"
                             [companyInfo]="newCompanyInfo">
 </app-check-company-template>
 
-go back  <button (click)="goBack()">返回 </button>
+<md-card class="all" *ngIf="!postStatus">
+  <md-card-title>提交您的审核结果:</md-card-title>
+  <md-card-content>
+    <md-radio-group [(ngModel)]="checkedMethd">
+      <md-radio-button [value]=methods[0]>
+        <label>审核通过</label>
+      </md-radio-button>
+      <md-radio-button [value]=methods[1]>
+        <label>无法通过</label>
+      </md-radio-button>
+    </md-radio-group>
+
+    <button class="rightIcon" (click)="goBack()" md-raised-button  *ngIf="!afterLoading"
+            color="primary">取消
+    </button>
+
+    <div>
+      <p class="text-primary" *ngIf="checkedMethd=='REJECT'" ><strong>提醒:</strong>
+        每个栏目，例如"公司名字"、"公司所在地"...审核理由必需在4-50字符之间，且不能分开填写！
+      </p>
+
+      <form [formGroup]="form" (ngSubmit)="submit(form.value)">
+
+
+
+        <div formArrayName="rejects"  *ngIf="checkedMethd=='REJECT'">
+          <div *ngFor="let reject of form.controls.rejects.controls; let i=index"
+               [formGroupName]="i">
+
+            <md-card class="small">
+              <md-card-content>
+
+                <button md-mini-fab
+                        *ngIf="form.controls.rejects.controls.length>1"
+                        (click)="removeReject(i)" class="rightIcon">
+                  <md-icon class="md-24">close</md-icon>
+                </button>
+                <div>
+                  <select formControlName="item">
+                    <option *ngFor="let allItem of allItems" [ngValue]="allItem">
+                      {{ allItem.value }}
+                    </option>
+                  </select>
+
+                  <md-input #m class="full-width" formControlName="message"
+                            placeholder="填写审核不通过的理由...">
+                    <md-hint align="end">{{m.characterCount}} / 50</md-hint>
+                  </md-input>
+
+                  <span class="error-message"
+                        *ngIf="formErrors.rejects[i].message">
+                    {{formErrors.rejects[i].message}}
+                  </span>
+
+
+                </div>
+
+              </md-card-content>
+            </md-card>
+
+
+          </div>
+
+        </div>
+        <div class="error-message centerMessage">
+          {{errMsg}}
+        </div>
+
+        <button md-mini-fab  *ngIf="checkedMethd=='REJECT'"
+                [disabled]="form.controls.rejects.controls.length>6"
+                (click)="addReject()" class="" color="warn">
+          <md-icon class="md-24">add</md-icon>
+        </button>
+
+
+
+        <button class="full-width" type="submit"  *ngIf="!afterLoading"
+                md-raised-button
+                [disabled]="(checkedMethd=='REJECT'&&!form.valid)||!checkedMethd"
+                color="primary">
+          提交
+        </button>
+
+        <md-progress-bar *ngIf="afterLoading"
+                         mode="indeterminate">
+        </md-progress-bar>
+
+      </form>
+    </div>
+
+
+
+  </md-card-content>
+
+</md-card>
+
+
+<md-card class="all" *ngIf="postStatus">
+  <md-card-content>
+      <div class="alert alert-success text-sm-center" role="alert">
+        <strong>审核成功!</strong>
+      </div>
+
+      <button class="full-width" md-raised-button color="primary"
+              (click)="goBack()">
+        继续审核
+      </button>
+
+  </md-card-content>
+</md-card>

@@ -1,0 +1,41 @@
+.all{
+  width: 70%;
+  margin-left: 15%;
+  margin-top: 16px;
+}
+
+md-radio-group{
+  text-align: center;
+  margin-left: 16px;
+}
+
+md-radio-button{
+  margin-left: 16px;
+}
+
+.full-width{
+  width: 100%;
+  margin-top: 16px;
+}
+
+.small{
+  margin: 16px;
+  display: block;
+}
+
+.rightIcon{
+  float: right;
+}
+
+md-input{
+  width: 500px;
+}
+
+.error-message {
+  color: #F44336;
+  font-weight:900;
+}
+
+.centerMessage{
+ margin-left: 40%;
+}

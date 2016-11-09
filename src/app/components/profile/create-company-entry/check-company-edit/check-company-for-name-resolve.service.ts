@@ -23,7 +23,7 @@ import {CheckCompanyTemplateService} from "../../../../shared";
 
 
 @Injectable()
-export class CheckCompanyEditResolve implements Resolve<Observable<any>> {
+export class CheckCompanyForNameResolve implements Resolve<Observable<any>> {
   constructor(private checkCompanyTemplateService:CheckCompanyTemplateService,
               private router: Router,private spinner: SpinnerService) {
 

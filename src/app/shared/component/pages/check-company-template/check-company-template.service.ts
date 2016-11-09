@@ -52,18 +52,47 @@ export class CheckCompanyTemplateService {
   }
 
 
-  public submit(data: Object,address:Observable<string>,url:string,businessLicense: File, intruduction: File){
+  public submit(url:string,data?: Object,address?:Observable<string>,
+                businessLicense?: File, intruduction?: File){
 
-    return address.switchMap(e=>{
-      data['address']=e;
-      const m= JSON.stringify(data);
-      return this.secondSubmit(m,url,businessLicense,intruduction);
-    })
+    // address 存在的情况
+    if(address){
+      return address.switchMap(e=>{
+        let m:string;
+        // address 存在 ，且data存在
+        if(data){
+          data['address']=e;
+          m= JSON.stringify(data);
+        }
+        // address 存在 ，且data不存在
+        else{
+          let d={};
+          d['address']=e;
+          m= JSON.stringify(d);
+        }
+        return this.secondSubmit(url,m,businessLicense,intruduction);
+
+      })
+    }
+     // address 不存在
+    else {
+      let m:string;
+      // address 不存在 ，but data存在
+      if(data){
+        m= JSON.stringify(data);
+        return this.secondSubmit(url,m,businessLicense,intruduction);
+      }
+      // address 不存在 ，且data不存在
+      else{
+        return this.secondSubmit(url,undefined,businessLicense,intruduction);
+      }
+
+    }
   }
 
 
 
-  public secondSubmit(body: string, url:string,businessLicense: File, intruduction: File) {
+  public secondSubmit(url:string,body?: string, businessLicense?: File, intruduction?: File) {
     //const url = '/api/company-info/company/newCompany';
     return new Observable((responseObserver: Observer<any>) => {
       //http://stackoverflow.com/questions/21329426/spring-mvc-multipart-request-with-json/25183266#25183266
@@ -71,9 +100,16 @@ export class CheckCompanyTemplateService {
       let formdata = new FormData();
 
       formdata.append("_csrf", this.tokenService.getCsrf());
-      formdata.append("businessLicense", businessLicense);
-      formdata.append("intruduction", intruduction);
-      formdata.append("body", new Blob([body], {type: "application/json"}));
+      if(businessLicense){
+        formdata.append("businessLicense", businessLicense);
+      }
+
+      if(intruduction){
+        formdata.append("intruduction", intruduction);
+      }
+      if(body){
+        formdata.append("body", new Blob([body], {type: "application/json"}));
+      }
 
       let request = new XMLHttpRequest();
       request.onload = () => {

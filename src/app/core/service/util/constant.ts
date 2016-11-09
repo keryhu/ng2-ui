@@ -90,6 +90,11 @@ export class Constant{
   public static getCheckCompanyCommonInfoUrl='/api/company/company/getCheckCompanyCommonInfo';
   public static getUnCheckdCompanyUrl=
     '/api/company/company/findUncheckedCompanyBySelf';
+  public static getUnCheckdCompanyAfterRejectUrl=
+    '/api/company/company/findUncheckedCompanyAfterReject';
+
+  public static createCompanyAfterRejectUrl=
+    '/api/company/company/createCompanyAfterReject';
 
   // 新地点的客服人员，在首页搜索 数据库中的公司信息。
   public static serviceQueryCompanyWithPages=
@@ -97,7 +102,8 @@ export class Constant{
 
   public static adminQueryCompanyWithPages=
     '/api/company/admin/queryCompanyWithPage';
-  public static findCompanyExistById='/api/company/company/findCompanyExistById'
+  public static findCompanyExistById='/api/company/company/findCompanyExistById';
+  public static serviceCheckCompanyPostUrl='/api/company/service/check-company';
 
   //xdidian  service /admin  url
 

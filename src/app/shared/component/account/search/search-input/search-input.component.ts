@@ -46,7 +46,9 @@ export class SearchInputComponent implements OnInit {
     {name:'registerTime',cName:'注册时间' ,sort:true,
       sortIcon: new Sort('registerTime','none')},
     {name:'checked',cName:'审核是否通过',sort:true,
-      sortIcon: new Sort('checked','none')}
+      sortIcon: new Sort('checked','none')},
+    {name:'adminId',cName:'adminId',sort:false
+    }
   ]
 
   // 用户提供的搜索条件
@@ -82,7 +84,7 @@ export class SearchInputComponent implements OnInit {
           this.selectedtSearchType = this.urlParamObject.searchType;
 
           if (this.urlParamObject.searchType === allSearchType[2]) {
-            this.placeholdContent = '输入email/手机号/姓名，查询会员...';
+            this.placeholdContent = '输入email/手机号/姓名/userId，查询会员...';
           }
           else {
             this.placeholdContent = '输入公司名字，查询...';
@@ -134,7 +136,7 @@ export class SearchInputComponent implements OnInit {
 
     }
     if (value === allSearchType[2]) {
-      this.placeholdContent = '输入email/手机号/姓名，查询会员...';
+      this.placeholdContent = '输入email/手机号/姓名/userId，查询会员...';
     }
     if (value === allSearchType[0]) {
       this.searchContent = undefined;

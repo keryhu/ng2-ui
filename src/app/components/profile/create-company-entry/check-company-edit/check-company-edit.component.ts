@@ -5,6 +5,8 @@ import {
   CheckCompanyType,
   CheckCompanyReadWrite
 } from "../../../../shared";
+import {ActivatedRoute} from "@angular/router";
+import {Constant} from "../../../../core/service/util/constant";
 
 @Component({
   selector: 'app-check-company-edit',
@@ -13,49 +15,23 @@ import {
 })
 export class CheckCompanyEditComponent implements OnInit {
 
+  private checkCompanyForCompanyResolve: Object = {};
   private checkCompanyType: CheckCompanyType = CheckCompanyType.Edit;
-  private newCompanyInfo: CheckCompanyObject = {
+  // 这个传递给 check-template 为了获取后台的 公司行业和企业性质的材料
+  private urlResolveName:string='checkCompanyForNameResolve';
+  private errMsg:string;
+  // 当用户修改完申请材料后，提交后台的post url
+  private url=Constant.createCompanyAfterRejectUrl;
 
-    name: {
-      value: 'name',
-      readWrite: CheckCompanyReadWrite.Write,
-      rejectMsg: 'notssd '
-    },
-    address: {
-      value: '上海市黄浦区',
-      readWrite: CheckCompanyReadWrite.Write,
-      rejectMsg: '地址错误 '
-    },
-    fullAddress: {
-      value: 'fullAddress',
-      readWrite: CheckCompanyReadWrite.Read,
-    },
-    companyIndustry: {
-      value: 'companyIndustry',
-      readWrite: CheckCompanyReadWrite.Write,
-      rejectMsg: 'not '
-    },
-    enterpriseNature: {
-      value: 'enterpriseNature',
-      readWrite: CheckCompanyReadWrite.Read
-    },
-    businessLicense:{
-      value:'businessLicense',
-      readWrite: CheckCompanyReadWrite.Read
-    },
-    intruduction:{
-      value:'intruduction',
-      readWrite: CheckCompanyReadWrite.Read
-    }
-  };
-  // routing  resolve 的名字，，这个需要传递给后台，方便后台直接拦截 resolve 的🈯️。
-  private urlResolveName:string='checkCompanyEditResolve';
-
-  constructor() {
+  constructor(private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.checkCompanyForCompanyResolve =
+      this.route.snapshot.data['checkCompanyForCompanyResolve'];
 
+    this.errMsg=
+      this.route.snapshot.data[this.urlResolveName]['newCompanyErrMsg'];
   }
 
 

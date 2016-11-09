@@ -85,8 +85,6 @@ export class SearchPageComponent implements OnInit,OnDestroy {
       // 设置page参数
       if(this.searchParams.page){
         this.currentPage = +this.searchParams.page;
-        console.log(this.searchParams);
-
         // 如果url里面含有 sort，需要手动刷新sort icon 图标
         if ( typeof this.searchParams.sort === 'string') {
           const w = Sort.parse(this.searchParams.sort);  //w is array of Sort

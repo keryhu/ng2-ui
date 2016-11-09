@@ -15,7 +15,7 @@ import {Title} from "@angular/platform-browser";
 export class CheckCompanyHomeComponent implements OnInit {
 
   //传递给  search-page 的 主url
-  private indexUrl="/service/check-company-edit-company";
+  private indexUrl="/service/check-company";
   //传递给  后台查询为审核的公司的 url
   private searchCompanyServerUrl:string=Constant.serviceQueryUncheckdCompanyUrl;
   // input中的 placehold

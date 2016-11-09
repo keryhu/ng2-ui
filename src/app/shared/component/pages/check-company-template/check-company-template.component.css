@@ -36,3 +36,8 @@ md-card{
   width: 100%;
   margin-top: 16px;
 }
+
+.centerMessage{
+  margin-top: 16px;
+  text-align: center
+}

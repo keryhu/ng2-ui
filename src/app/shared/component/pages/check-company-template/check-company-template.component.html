@@ -2,10 +2,11 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" autocomplete="off">
 
     <!------------ 公司名字   ------------------>
+    <label class="item-title">公司名字:</label>
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.name.readWrite==1">
       <div class="reject-message">
-        {{companyInfo?.name.rejectMsg}}
+        {{companyInfo?.name.rejectMsg}}---------原提交内容为: {{companyInfo?.name.value}}
       </div>
       <md-icon style="color: cornflowerblue" *ngIf="checkCompanyType==1&&companyInfo.name.readWrite==1"
                class="md-24">error
@@ -22,7 +23,6 @@
 
     <div *ngIf="(checkCompanyType==1&&companyInfo.name.readWrite==0)||
                 checkCompanyType==2">
-      <label>公司名字: </label>
       <md-input [value]="companyInfo.name.value" [disabled]="true">
       </md-input>
     </div>
@@ -33,13 +33,12 @@
     checkCompanyType==1&&companyInfo.address.readWrite==1">
 
       <div class="reject-message">
-        {{companyInfo?.address.rejectMsg}}
+        {{companyInfo?.address.rejectMsg}}---------原提交内容为:{{companyInfo?.address.value}}
       </div>
 
       <div *ngIf="checkCompanyType==1&&companyInfo.address.readWrite==1">
         <md-icon style="color: cornflowerblue" class="md-24">error
         </md-icon>
-        <span>原提交地址为: {{companyInfo?.address.value}}</span>
       </div>
       <app-address></app-address>
 
@@ -59,7 +58,7 @@
     checkCompanyType==1&&companyInfo.fullAddress.readWrite==1">
 
       <div class="reject-message">
-        {{companyInfo?.fullAddress.rejectMsg}}
+        {{companyInfo?.fullAddress.rejectMsg}}---------原提交内容为: {{companyInfo?.fullAddress.value}}
       </div>
       <md-icon style="color: cornflowerblue"
                *ngIf="checkCompanyType==1&&companyInfo.fullAddress.readWrite==1"
@@ -87,15 +86,14 @@
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.companyIndustry.readWrite==1">
       <div class="reject-message">
-        {{companyInfo?.companyIndustry.rejectMsg}}
+        {{companyInfo?.companyIndustry.rejectMsg}}---------原提交内容为:{{companyInfo?.companyIndustry.value}}
       </div>
       <div *ngIf="checkCompanyType==1&&companyInfo.companyIndustry.readWrite==1">
         <md-icon style="color: cornflowerblue" class="md-24">error
         </md-icon>
-        <span>原提交-公司行业为: {{companyInfo?.companyIndustry.value}}</span>
       </div>
 
-      <select formcontrolname="companyIndustry"
+      <select formControlName="companyIndustry"
               (change)="onCompanyIndustryChange($event.target.value)">
         <option *ngFor="let c of companyIndustries ">{{c}}</option>
       </select>
@@ -114,15 +112,14 @@
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.enterpriseNature.readWrite==1">
       <div class="reject-message">
-        {{companyInfo?.enterpriseNature.rejectMsg}}
+        {{companyInfo?.enterpriseNature.rejectMsg}}---------原提交内容为:{{companyInfo?.enterpriseNature.value}}
       </div>
       <div *ngIf="checkCompanyType==1&&companyInfo.enterpriseNature.readWrite==1">
         <md-icon style="color: cornflowerblue" class="md-24">error
         </md-icon>
-        <span>原提交-公司性质为: {{companyInfo?.enterpriseNature.value}}</span>
       </div>
 
-      <select formcontrolname="enterpriseNature"
+      <select formControlName="enterpriseNature"
               (change)="onEnterpriseNatureChange($event.target.value)">
         <option *ngFor="let c of enterpriseNatures ">{{c}}</option>
       </select>
@@ -147,10 +144,11 @@
     <label class="item-title">营业执照:</label>
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.businessLicense.readWrite==1">
-      <div class="reject-message">
+      <div class="reject-message"
+           *ngIf="checkCompanyType==1&&companyInfo.businessLicense.readWrite==1">
         {{companyInfo?.businessLicense.rejectMsg}}--原图为下:
       </div>
-      <div *ngIf="companyInfo&&checkCompanyType==1">
+      <div *ngIf="checkCompanyType==1&&companyInfo.businessLicense.readWrite==1">
         <img [src]="businessLicense" width="500" height="600"/>
       </div>
       <div *ngIf="businessImg|async">
@@ -181,10 +179,11 @@
     <label class="item-title">介绍信:</label>
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.intruduction.readWrite==1">
-      <div class="reject-message">
+      <div class="reject-message"
+           *ngIf="checkCompanyType==1&&companyInfo.intruduction.readWrite==1">
         {{companyInfo?.intruduction.rejectMsg}}--原图为下:
       </div>
-      <div *ngIf="companyInfo&&checkCompanyType==1">
+      <div *ngIf="checkCompanyType==1&&companyInfo.intruduction.readWrite==1">
         <img [src]="intruduction" width="500" height="600"/>
       </div>
       <div *ngIf="intruductionImg|async">
@@ -207,6 +206,10 @@
       <img [src]="intruduction" width="500" height="600"/>
     </div>
 
+    <div class="error-message centerMessage">
+      {{errMsg}}
+    </div>
+
     <!------------ submit:  ------------------>
     <div *ngIf="checkCompanyType==0||checkCompanyType==1">
       <md-progress-bar *ngIf="afterSubmit"
@@ -214,7 +217,7 @@
       </md-progress-bar>
 
       <button *ngIf="!afterSubmit" type="submit" md-raised-button
-              [disabled]="!form.valid||!checkUploadImg()"
+              [disabled]="!canSubmit()"
               class="full-width" color="primary">
         提交
       </button>

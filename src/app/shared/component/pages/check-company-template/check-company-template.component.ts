@@ -51,8 +51,7 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
   //---------------for  read only----------------------------
   private businessLicense: string;
   private intruduction: string;
-  // 自定义包含省份，地级市，县的 的address
-  private address: string;
+  private errMsg: string;
 
   constructor(private stringFormat: StringFormat, private userQueryService: UserQueryService,
               private router: Router, private route: ActivatedRoute, private convert: Convert,
@@ -116,6 +115,19 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
       this.intruduction = `data:image/${this.companyInfo['intruductionType']};base64,${this.companyInfo.intruduction.value}`;
     }
 
+
+    if(this.checkCompanyType==1){
+      // 当checkCompanyType 为edit，且营业执照的readWrite 为1，更换button的value
+      if(this.companyInfo.businessLicense.readWrite==1){
+        this.uploadBusinessButtonValue='更换营业执照';
+      }
+      // 当checkCompanyType 为edit，且介绍信的readWrite 为1，更换button的value
+      if(this.companyInfo.intruduction.readWrite==1){
+        this.uploadInstructionbuttonValue='更换介绍信';
+      }
+    }
+
+
   }
 
   // 当选择 公司行业的时候，促发的事件
@@ -149,7 +161,6 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
     }
     //如果用户，取消点击上传 按钮，则恢复到数据库保存的 图片。
     if (event && event.cancel) {
-      console.log('cancel');
       this.businessImg.next('');
     }
 
@@ -165,31 +176,82 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
     }
     //如果用户，取消点击上传 按钮，则恢复到数据库保存的 图片。
     if (event && event.cancel) {
-      console.log('cancel');
       this.intruductionImg.next('');
     }
 
+  }
+
+  // 检测submit 是否可以提交
+  canSubmit():boolean{
+    if(this.checkCompanyType==0){
+      return this.form.valid&&this.checkUploadImg();
+    }
+    else if(this.checkCompanyType==1){
+
+      let nameValid=true;
+      // name valid
+      if(this.companyInfo.name.readWrite==1){
+        nameValid=this.name.valid&&(this.name.value!==this.companyInfo.name.value);
+      }
+
+      let fullAddressValid=true;
+      if(this.companyInfo.fullAddress.readWrite==1){
+        fullAddressValid=this.fullAddress.valid&&
+          (this.fullAddress.value!==this.companyInfo.fullAddress.value);
+      }
+      // 营业执照
+      let businessValid=true;
+      if(this.companyInfo.businessLicense.readWrite==1){
+        businessValid=this.businessImg.getValue()?true:false;
+      }
+
+      // 介绍信
+      let intruductionValid=true;
+      if(this.companyInfo.intruduction.readWrite==1){
+        intruductionValid=this.intruductionImg.getValue()?true:false;
+      }
+      return nameValid&&fullAddressValid&&businessValid&&intruductionValid;
+    }
+    else {
+      return false;
+    }
   }
 
   onSubmit(data) {
     if(this.checkCompanyType==0||this.checkCompanyType==1){
       this.afterSubmit = true;
       console.log(data);
-      // 获取到的是，【省份，地级市，县】 的Observable array
-      const address=this.addressComponent.getAddressArray();
+      let address,businessFile,intruductionFile;
+      let data2={};
+      // 将data 的值复制过去。
+      if(data){
+        data2=JSON.parse(JSON.stringify(data));
+      }
+      if(this.companyInfo.address.readWrite==1){
+        // 获取到的是，【省份，地级市，县】 的Observable array
+        address=this.addressComponent.getAddressArray();
+      }
 
-      // 提交给后台的data is
-      const tokenObj: TokenObj = JSON.parse(localStorage.getItem('token'));
+      if(this.checkCompanyType==0){
+        // 提交给后台的data is
+        const tokenObj: TokenObj = JSON.parse(localStorage.getItem('token'));
 
-      data.adminId = tokenObj.userId;
+        data2['adminId'] = tokenObj.userId;
+      }
 
-      console.log('提交的数据为：  ' + JSON.stringify(data));
 
-      const businessFile = this.convert.dataURItoFile(this.businessImg.getValue());
-      const intruductionFile = this.convert.dataURItoFile(this.intruductionImg.getValue());
+      console.log('提交的数据为：  ' + JSON.stringify(data2));
+      if(this.companyInfo.businessLicense.readWrite==1){
+        businessFile = this.convert.dataURItoFile(this.businessImg.getValue());
+      }
+
+      if(this.companyInfo.intruduction.readWrite==1){
+        intruductionFile = this.convert.dataURItoFile(this.intruductionImg.getValue());
+      }
+
 
       this.submitSub = this.checkCompanyTemplateService.submit(
-        data,address,this.submitUrl, businessFile, intruductionFile)
+        this.submitUrl,data2,address, businessFile, intruductionFile)
         .subscribe(
           e=> {
             console.log(e['_body']);
@@ -197,9 +259,18 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
             const m: Object = JSON.parse(e['_body']);
             if (m['result'] == true) {
               console.log('注册成功。');
-              this.router.navigate(['/profile/new-company/wait-check-company'])
+              this.router.navigate(['/profile/create-company/wait-check-company'])
             }
             console.log(e);
+          },
+          err=>{
+            this.afterSubmit=false;
+            if(err){
+              if(err['_body']){
+                const m=JSON.parse(err['_body']);
+                this.errMsg=m['message'];
+              }
+            }
           }
         )
     }

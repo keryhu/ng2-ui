@@ -5,7 +5,9 @@ import {SharedModule,CheckCompanyTemplateModule,CheckCompanyTemplateService} fro
 
 import {CheckCompanyEditRoutingModule} from "./check-company-edit-routing.module";
 import {CheckCompanyEditComponent} from "./check-company-edit.component";
-import {CheckCompanyEditResolve} from "./check-company-edit-resolve.service";
+import {CheckCompanyForNameResolve} from "./check-company-for-name-resolve.service";
+import {CheckCompanyEditService} from "./check-company-edit.service";
+import {CheckCompanyForCompanyResolve} from "./check-company-for-company-resolve";
 
 
 
@@ -13,6 +15,7 @@ import {CheckCompanyEditResolve} from "./check-company-edit-resolve.service";
   imports: [SharedModule,MaterialModule.forRoot(),
     CheckCompanyEditRoutingModule,CheckCompanyTemplateModule],
   declarations: [CheckCompanyEditComponent],
-  providers:[CheckCompanyEditResolve,CheckCompanyTemplateService]
+  providers:[CheckCompanyForNameResolve,CheckCompanyTemplateService,
+    CheckCompanyEditService,CheckCompanyForCompanyResolve]
 })
 export class CheckCompanyEditModule { }

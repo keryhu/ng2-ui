@@ -7,4 +7,6 @@
 export * from './check-company-edit.component';
 export * from './check-company-edit-routing.module';
 export * from './check-company-edit.module';
-export * from './check-company-edit-resolve.service';
+export * from './check-company-for-name-resolve.service';
+export * from './check-company-edit.service';
+export * from './check-company-for-company-resolve';

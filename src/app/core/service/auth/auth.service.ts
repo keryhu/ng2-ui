@@ -40,6 +40,7 @@ export class AuthService {
   private userData: any = null;
 
 
+
   //存在 登录后的 redirect url,如果之前用户是因为访问某个url没有权限,那么就会暂时存储这个进 redirectUrl
   // 等到登录成功后,就会进去。
   public redirectUrl: string;

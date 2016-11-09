@@ -17,6 +17,10 @@ const routes: Routes = [
     loadChildren: 'app/components/login/login.module#LoginModule'
   },
   {
+    path:'re',
+    loadChildren: 'app/components/re/re.module#ReModule'
+  },
+  {
     path: 'signup',
     loadChildren: 'app/components/signup/signup.module#SignupModule'
   },

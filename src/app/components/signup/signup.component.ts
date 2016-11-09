@@ -4,7 +4,7 @@
  * @author : keryHu keryhu@hotmail.com
  */
 import {Component, OnInit} from  '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormControl, FormGroup, Validators, FormBuilder} from '@angular/forms';
 import {Title} from "@angular/platform-browser";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs/Rx";
@@ -45,8 +45,10 @@ export class SignupComponent implements OnInit {
 
   constructor(private titleService: Title, private signupService: SignupService,
               private stringFormat: StringFormat, private router: Router,
-              private spinner: SpinnerService, private userQueryService: UserQueryService) {
+              private spinner: SpinnerService, private userQueryService: UserQueryService,
+              ) {
   }
+
 
 
   ngOnInit() {
