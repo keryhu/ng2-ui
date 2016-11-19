@@ -1,14 +1,18 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {
+  Component, OnInit, Output, EventEmitter
 
-import {AuthService, RoleEnum} from "../../service";
+} from '@angular/core';
+import {AuthService, RoleEnum} from "../../../service";
+
 
 
 @Component({
   selector: 'app-top-navbar',
-  templateUrl: './top-navbar.component.html',
-  styleUrls: ['./top-navbar.component.css']
+  templateUrl: 'top-navbar.component.html',
+  styleUrls: ['top-navbar.component.css']
 })
 export class TopNavbarComponent implements OnInit {
+
 
   //登录后，显示的首页名字。
   private afterLoggedIndex: string;
@@ -22,6 +26,7 @@ export class TopNavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+
     if (this.authService.isLoggedIn) {
       const roles = [RoleEnum.ROLE_XDIDIAN_ADMIN, RoleEnum.ROLE_XDIDIAN_SERVICE];
 
@@ -38,7 +43,6 @@ export class TopNavbarComponent implements OnInit {
 
 
   @Output() toggleMenuIcon = new EventEmitter<boolean>();
-
 
   //异步查看当前用户有没有登录
   getLoggedIn() {
@@ -60,13 +64,18 @@ export class TopNavbarComponent implements OnInit {
 
   // 点击搜索的icon 事件
   clickSearch(): void {
-    this.showSearchBar=true;
+    this.showSearchBar = true;
   }
 
   // 点击 关闭搜索的icon 事件
-  closeSearch(){
+
+  /**
+   *
+   *  closeSearch(){
     this.showSearchBar=false;
   }
+   */
+
 
   logout() {
     this.authService.logout();

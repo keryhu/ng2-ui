@@ -120,6 +120,10 @@ export class Constant{
   public static serviceQueryNewCompanyInfoByCompanyIdUrl=
     '/api/company/service/queryNewCompanyInfoByCompanyId';
 
+  // query message 查询未读消息的url
+  public static querySubjectMsgUrl='/api/message/query/subjectMsg';
+  public static updateSubjectMsgUrl='/api/message/updateMessage';
+
   //refreshToken 过期时间   单位为 秒   10 days
   public static refreshToken_expired_in:number=864000;
 

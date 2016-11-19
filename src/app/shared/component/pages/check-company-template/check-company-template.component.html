@@ -5,7 +5,8 @@
     <label class="item-title">公司名字:</label>
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.name.readWrite==1">
-      <div class="reject-message">
+      <div class="reject-message"
+           *ngIf="checkCompanyType==1&&companyInfo.name.readWrite==1">
         {{companyInfo?.name.rejectMsg}}---------原提交内容为: {{companyInfo?.name.value}}
       </div>
       <md-icon style="color: cornflowerblue" *ngIf="checkCompanyType==1&&companyInfo.name.readWrite==1"
@@ -32,7 +33,8 @@
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.address.readWrite==1">
 
-      <div class="reject-message">
+      <div class="reject-message"
+           *ngIf="checkCompanyType==1&&companyInfo.address.readWrite==1">
         {{companyInfo?.address.rejectMsg}}---------原提交内容为:{{companyInfo?.address.value}}
       </div>
 
@@ -57,7 +59,8 @@
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.fullAddress.readWrite==1">
 
-      <div class="reject-message">
+      <div class="reject-message"
+           *ngIf="checkCompanyType==1&&companyInfo.fullAddress.readWrite==1">
         {{companyInfo?.fullAddress.rejectMsg}}---------原提交内容为: {{companyInfo?.fullAddress.value}}
       </div>
       <md-icon style="color: cornflowerblue"
@@ -85,7 +88,8 @@
     <label class="item-title">公司行业:</label>
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.companyIndustry.readWrite==1">
-      <div class="reject-message">
+      <div class="reject-message"
+           *ngIf="checkCompanyType==1&&companyInfo.companyIndustry.readWrite==1">
         {{companyInfo?.companyIndustry.rejectMsg}}---------原提交内容为:{{companyInfo?.companyIndustry.value}}
       </div>
       <div *ngIf="checkCompanyType==1&&companyInfo.companyIndustry.readWrite==1">
@@ -111,7 +115,8 @@
     <label class="item-title">公司性质:</label>
     <div *ngIf="checkCompanyType==0||
     checkCompanyType==1&&companyInfo.enterpriseNature.readWrite==1">
-      <div class="reject-message">
+      <div class="reject-message"
+           *ngIf="checkCompanyType==1&&companyInfo.enterpriseNature.readWrite==1">
         {{companyInfo?.enterpriseNature.rejectMsg}}---------原提交内容为:{{companyInfo?.enterpriseNature.value}}
       </div>
       <div *ngIf="checkCompanyType==1&&companyInfo.enterpriseNature.readWrite==1">

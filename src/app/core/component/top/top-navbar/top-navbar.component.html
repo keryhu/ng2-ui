@@ -1,6 +1,7 @@
 <md-toolbar color="primary">
 
-  <button class="app-icon-button" *ngIf="getLoggedIn() | async" md-icon-button (click)="toggle()">
+  <button class="app-icon-button" *ngIf="getLoggedIn() | async"
+          md-icon-button (click)="toggle()">
     <md-icon class="md-24">menu</md-icon>
   </button>
 
@@ -13,7 +14,7 @@
        routerLinkActive="active">创建公司
     </a>
 
-    <a  md-list-item routerLink="/re"
+    <a md-list-item routerLink="/re"
        routerLinkActive="active">re-test
     </a>
 
@@ -28,19 +29,32 @@
 
     <md-nav-list>
      <button md-icon-button (click)="clickSearch()" class="searchIcon"
-             [disabled]="showSearchBar">
-      <md-icon class="md-24" >
+             [disabled]="showSearchBar" class="searchIcon">
+      <md-icon class="md-24">
         search
       </md-icon>
       </button>
 
 
-      <app-search-bar *ngIf="showSearchBar" (blurSearch)="closeSearch()"></app-search-bar>
+
+      <!--
+            <app-search-bar *ngIf="showSearchBar" (blurSearch)="closeSearch()"></app-search-bar>
+
+      -->
+
+      <app-search-bar *ngIf="showSearchBar"></app-search-bar>
 
 
       <button *ngIf="showSearchBar" md-icon-button (click)="closeSearch()">
       <md-icon class="md-24">close</md-icon>
       </button>
+
+
+      <app-top-message>
+
+      </app-top-message>
+
+
 
 
        <a md-list-item routerLink="/signup" *ngIf="!(getLoggedIn() | async)"

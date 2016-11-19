@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit,ViewChild} from '@angular/core';
-import {Subscription} from "rxjs";
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Subscription, BehaviorSubject} from "rxjs";
 
 
-import {SpinnerService,AuthService} from "./core";
+import {SpinnerService, AuthService} from "./core";
 
 
 
@@ -13,7 +13,7 @@ import {SpinnerService,AuthService} from "./core";
 })
 export class AppComponent implements OnInit,OnDestroy {
 
-  public constructor(private spinner: SpinnerService,private authService:AuthService) {
+  public constructor(private spinner: SpinnerService, private authService: AuthService) {
 
   }
 
@@ -22,17 +22,19 @@ export class AppComponent implements OnInit,OnDestroy {
 
 
   ngOnInit(): void {
-    this.spinnersub =this.spinner.status.subscribe((status: boolean) => {
+    this.spinnersub = this.spinner.status.subscribe((status: boolean) => {
       this.active = status;
     });
 
+
   }
 
-  @ViewChild('start') start:any;
+
+  @ViewChild('start') start: any;
 
   //切换 side menu
-  toggle(event){
-    if(event){
+  toggle(event) {
+    if (event) {
       this.start.toggle();
     }
 
@@ -48,7 +50,7 @@ export class AppComponent implements OnInit,OnDestroy {
 
 
   ngOnDestroy(): void {
-    if(typeof this.spinnersub!=='undefined'){
+    if (typeof this.spinnersub !== 'undefined') {
       this.spinnersub.unsubscribe();
     }
   }

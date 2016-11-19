@@ -29,3 +29,11 @@ flex: 1 1 auto;
 app-search-bar{
   margin-top: -8px;
 }
+
+app-top-message{
+  margin-top: 2px;
+}
+.searchIcon{
+  margin-top: 2px;
+}
+

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Title} from "@angular/platform-browser";
 
 import {SpinnerService} from "../../core";
+import {Observable} from "rxjs";
 
 
 @Component({
@@ -11,7 +12,12 @@ import {SpinnerService} from "../../core";
 })
 export class HomeComponent implements OnInit {
 
-
+  private m = [
+    {A: 'a', p1: 1},
+    {A: 'b', p1: 2},
+    {A: 'c', p1: 3}
+  ];
+  private mm = Observable.of(this.m)
 
 
   constructor(private titleService: Title, private spinner: SpinnerService) {
@@ -23,14 +29,11 @@ export class HomeComponent implements OnInit {
     this.spinner.stop();
 
 
-
   }
 
   public setTitle() {
     this.titleService.setTitle('新地点首页')
   }
-
-
 
 
 

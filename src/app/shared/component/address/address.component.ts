@@ -100,7 +100,6 @@ export class AddressComponent implements OnInit,OnDestroy {
   // 获取用户取得的最新的 地址数据，方便前台获取，注意这个返回的结果是一个object
   // 分别为【省份，地级市，县】
   getAddressArray():Observable<string>{
-
     return Observable.combineLatest(
       this.selectedProvince.map(e=>e.name),
       this.selectedCity.map(e=>e.name),

@@ -10,7 +10,6 @@ import {Router} from "@angular/router";
 import {BehaviorSubject, Observable, Subscription} from "rxjs/Rx";
 
 
-
 import {TokenService} from "./token.service";
 import {RequestService} from "./request.service";
 import {AccessTokenRest} from "./access-token-rest";
@@ -40,13 +39,14 @@ export class AuthService {
   private userData: any = null;
 
 
-
   //存在 登录后的 redirect url,如果之前用户是因为访问某个url没有权限,那么就会暂时存储这个进 redirectUrl
   // 等到登录成功后,就会进去。
   public redirectUrl: string;
 
-  constructor(private http: Http, private router: Router, private tokenService: TokenService,
-              private requestService: RequestService, private accessTokenRest: AccessTokenRest) {
+  constructor(private http: Http, private router: Router,
+              private tokenService: TokenService,
+              private requestService: RequestService,
+              private accessTokenRest: AccessTokenRest) {
     //如果token未过期,那么就执行刷新refreshtoken
     const accessToken: string = localStorage.getItem('access-token');
     if (accessToken) {
@@ -59,6 +59,7 @@ export class AuthService {
       //未过期
       else {
         this._loginedIn.next(true);
+
         //如果refreshtoken 还未过期,那么就执行制动刷新
         if (!this.tokenService.refreshTokenExpired()) {
 
@@ -86,8 +87,8 @@ export class AuthService {
       "&grant_type=password&client_id=" + encodeURI(this.clientId);
     return this.http.post(this.loginUrl, body, {headers: this.requestService.getLoginHeaders()})
       .map(r=>r.json())
-      .do(r=>{
-        if (r['access_token']){
+      .do(r=> {
+        if (r['access_token']) {
           localStorage.setItem('access-token', r['access_token']);
           this._loginedIn.next(true);
           //保存在loginStorage中的信息
@@ -97,6 +98,7 @@ export class AuthService {
             refreshToken_expires_in: Date.now() + this.refreshToken_expired_in * 1000
           };
           localStorage.setItem('token', JSON.stringify(token));
+          this.requestService.getAsyAuthHeaders(r['access_token']);
         }
 
       })
@@ -175,7 +177,7 @@ export class AuthService {
     const access_token: string = localStorage.getItem('access-token');
     const tokenObj: TokenObj = JSON.parse(localStorage.getItem('token'));
 
-    this.getNewTokenSub = this.accessTokenRest.get(tokenObj.userId,access_token)
+    this.getNewTokenSub = this.accessTokenRest.get(tokenObj.userId, access_token)
       .switchMap(e=> {
         let t: string;
         if (this._refresh_token.getValue()) {
@@ -195,7 +197,7 @@ export class AuthService {
             console.log('stroe new access_token success ! ');
           }
 
-          if (typeof this.saveTokenSub!=='undefined') {
+          if (typeof this.saveTokenSub !== 'undefined') {
             this.saveTokenSub.unsubscribe();
           }
         },
@@ -206,7 +208,7 @@ export class AuthService {
           this.refreshSubscription.unsubscribe();
           localStorage.clear();
 
-          if (typeof this.saveTokenSub!=='undefined') {
+          if (typeof this.saveTokenSub !== 'undefined') {
             this.saveTokenSub.unsubscribe();
           }
 
@@ -219,7 +221,7 @@ export class AuthService {
 
   public hasRole(role: string): boolean {
     if (this.isLoggedIn()) {
-      return this.roles.some(e=>e===role);
+      return this.roles.some(e=>e === role);
     }
     return false;
   }
@@ -233,14 +235,15 @@ export class AuthService {
   }
 
   // 是新地点的管理员
-  public isXdidianAdmin():boolean{
+  public isXdidianAdmin(): boolean {
     return this.hasRole(RoleEnum.ROLE_XDIDIAN_ADMIN);
   }
 
-  public isXdidianService():boolean{
+  public isXdidianService(): boolean {
     return this.hasRole(RoleEnum.ROLE_XDIDIAN_SERVICE);
   }
-  public isCompanyAdmin():boolean{
+
+  public isCompanyAdmin(): boolean {
     return this.hasRole(RoleEnum.ROLE_COMPANY_ADMIN);
   }
 
@@ -252,17 +255,16 @@ export class AuthService {
   }
 
 
-
   public  logout() {
     this._loginedIn.next(false);
     localStorage.removeItem('access-token');
     localStorage.removeItem('token');
     this.router.navigate(['']);
 
-    if (typeof this.refreshSubscription!=='undefined') {
+    if (typeof this.refreshSubscription !== 'undefined') {
       this.refreshSubscription.unsubscribe();
     }
-    if (typeof this.saveTokenSub!=='undefined') {
+    if (typeof this.saveTokenSub !== 'undefined') {
       this.saveTokenSub.unsubscribe();
     }
   }

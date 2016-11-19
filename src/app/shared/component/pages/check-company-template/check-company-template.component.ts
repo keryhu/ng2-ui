@@ -1,10 +1,12 @@
 import {Component, OnInit, ViewChild, Input, OnDestroy} from '@angular/core';
 import {FormGroup, Validators, FormControl} from "@angular/forms";
-import {Subscription, BehaviorSubject} from "rxjs";
+import {Subscription, BehaviorSubject, Observable} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 
-import {CompanyNameValidate, Convert, UserQueryService, StringFormat,
-  TokenObj} from "../../../../core";
+import {
+  CompanyNameValidate, Convert, UserQueryService, StringFormat,
+  TokenObj
+} from "../../../../core";
 
 import {CheckCompanyTemplateService} from "./check-company-template.service";
 import {AddressComponent} from "../../address/address.component";
@@ -88,15 +90,15 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
 
     // 获取公司行业和公司性质的远程数据-需要的情景：
     //  first=0或edit=1且 readWrite 为write，
-    if(this.checkCompanyType==0||
-      (this.checkCompanyType==1&&this.companyInfo.companyIndustry.readWrite==1)){
+    if (this.checkCompanyType == 0 ||
+      (this.checkCompanyType == 1 && this.companyInfo.companyIndustry.readWrite == 1)) {
       this.companyIndustries =
         this.route.snapshot.data[this.urlResolveName]['companyIndustries'];
       this.companyIndustry.patchValue(this.defaultCompanyInfustry);
 
     }
-    if(this.checkCompanyType==0||
-      (this.checkCompanyType==1&&this.companyInfo.companyIndustry.readWrite==1)){
+    if (this.checkCompanyType == 0 ||
+      (this.checkCompanyType == 1 && this.companyInfo.companyIndustry.readWrite == 1)) {
       this.enterpriseNatures =
         this.route.snapshot.data[this.urlResolveName]['enterpriseNatures'];
       this.enterpriseNature.patchValue(this.defaultEnterpriseNature);
@@ -104,26 +106,26 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
     // 设置 admin login name  first和edit，都是自己使用，所以可以用，
     // allRead都不需要，是自己事后查看注册材料和新地点的管理人员审核资料，
     // 这两个情况忽略管理员姓名
-    if(this.checkCompanyType==0||this.checkCompanyType==1){
+    if (this.checkCompanyType == 0 || this.checkCompanyType == 1) {
       const tokenObj: TokenObj = JSON.parse(localStorage.getItem('token'));
       this.adminLoginName = tokenObj.loginName;
     }
 
     // 当只读，或者edit的时候，需要读取后台的营业执照和介绍信
-    if(this.checkCompanyType==2|| this.checkCompanyType==1){
+    if (this.checkCompanyType == 2 || this.checkCompanyType == 1) {
       this.businessLicense = `data:image/${this.companyInfo['businessLicenseType']};base64,${this.companyInfo.businessLicense.value}`;
       this.intruduction = `data:image/${this.companyInfo['intruductionType']};base64,${this.companyInfo.intruduction.value}`;
     }
 
 
-    if(this.checkCompanyType==1){
+    if (this.checkCompanyType == 1) {
       // 当checkCompanyType 为edit，且营业执照的readWrite 为1，更换button的value
-      if(this.companyInfo.businessLicense.readWrite==1){
-        this.uploadBusinessButtonValue='更换营业执照';
+      if (this.companyInfo.businessLicense.readWrite == 1) {
+        this.uploadBusinessButtonValue = '更换营业执照';
       }
       // 当checkCompanyType 为edit，且介绍信的readWrite 为1，更换button的value
-      if(this.companyInfo.intruduction.readWrite==1){
-        this.uploadInstructionbuttonValue='更换介绍信';
+      if (this.companyInfo.intruduction.readWrite == 1) {
+        this.uploadInstructionbuttonValue = '更换介绍信';
       }
     }
 
@@ -182,35 +184,35 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
   }
 
   // 检测submit 是否可以提交
-  canSubmit():boolean{
-    if(this.checkCompanyType==0){
-      return this.form.valid&&this.checkUploadImg();
+  canSubmit(): boolean {
+    if (this.checkCompanyType == 0) {
+      return this.form.valid && this.checkUploadImg();
     }
-    else if(this.checkCompanyType==1){
+    else if (this.checkCompanyType == 1) {
 
-      let nameValid=true;
+      let nameValid = true;
       // name valid
-      if(this.companyInfo.name.readWrite==1){
-        nameValid=this.name.valid&&(this.name.value!==this.companyInfo.name.value);
+      if (this.companyInfo.name.readWrite == 1) {
+        nameValid = this.name.valid && (this.name.value !== this.companyInfo.name.value);
       }
 
-      let fullAddressValid=true;
-      if(this.companyInfo.fullAddress.readWrite==1){
-        fullAddressValid=this.fullAddress.valid&&
-          (this.fullAddress.value!==this.companyInfo.fullAddress.value);
+      let fullAddressValid = true;
+      if (this.companyInfo.fullAddress.readWrite == 1) {
+        fullAddressValid = this.fullAddress.valid &&
+          (this.fullAddress.value !== this.companyInfo.fullAddress.value);
       }
       // 营业执照
-      let businessValid=true;
-      if(this.companyInfo.businessLicense.readWrite==1){
-        businessValid=this.businessImg.getValue()?true:false;
+      let businessValid = true;
+      if (this.companyInfo.businessLicense.readWrite == 1) {
+        businessValid = this.businessImg.getValue() ? true : false;
       }
 
       // 介绍信
-      let intruductionValid=true;
-      if(this.companyInfo.intruduction.readWrite==1){
-        intruductionValid=this.intruductionImg.getValue()?true:false;
+      let intruductionValid = true;
+      if (this.companyInfo.intruduction.readWrite == 1) {
+        intruductionValid = this.intruductionImg.getValue() ? true : false;
       }
-      return nameValid&&fullAddressValid&&businessValid&&intruductionValid;
+      return nameValid && fullAddressValid && businessValid && intruductionValid;
     }
     else {
       return false;
@@ -218,37 +220,44 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
   }
 
   onSubmit(data) {
-    if(this.checkCompanyType==0||this.checkCompanyType==1){
+
+
+    if (this.checkCompanyType == 0 || this.checkCompanyType == 1) {
       this.afterSubmit = true;
-      console.log(data);
-      let address,businessFile,intruductionFile;
-      let data2={};
+
+      let address: Observable<string>;
+      let businessFile;
+      let intruductionFile;
+      let data2 = {};
+
       // 将data 的值复制过去。
-      if(data){
-        data2=JSON.parse(JSON.stringify(data));
+      if (data) {
+        data2 = JSON.parse(JSON.stringify(data));
       }
-      if(this.companyInfo.address.readWrite==1){
+      if ((this.checkCompanyType == 1&&this.companyInfo.address.readWrite == 1)
+        || this.checkCompanyType == 0) {
         // 获取到的是，【省份，地级市，县】 的Observable array
-        address=this.addressComponent.getAddressArray();
+        address = this.addressComponent.getAddressArray();
       }
 
-      if(this.checkCompanyType==0){
+      if (this.checkCompanyType == 0) {
         // 提交给后台的data is
         const tokenObj: TokenObj = JSON.parse(localStorage.getItem('token'));
-
         data2['adminId'] = tokenObj.userId;
       }
 
-
       console.log('提交的数据为：  ' + JSON.stringify(data2));
-      if(this.companyInfo.businessLicense.readWrite==1){
+      if ((this.checkCompanyType==1 &&
+        this.companyInfo.businessLicense.readWrite == 1)
+        || this.checkCompanyType == 0) {
         businessFile = this.convert.dataURItoFile(this.businessImg.getValue());
       }
 
-      if(this.companyInfo.intruduction.readWrite==1){
+      if ((this.checkCompanyType==1&&
+        this.companyInfo.intruduction.readWrite == 1)
+        || this.checkCompanyType == 0) {
         intruductionFile = this.convert.dataURItoFile(this.intruductionImg.getValue());
       }
-
 
       this.submitSub = this.checkCompanyTemplateService.submit(
         this.submitUrl,data2,address, businessFile, intruductionFile)
@@ -273,13 +282,14 @@ export class CheckCompanyTemplateComponent implements OnInit,OnDestroy {
             }
           }
         )
+
     }
 
   }
 
 
   ngOnDestroy(): void {
-    if(typeof this.submitSub!='undefined'){
+    if (typeof this.submitSub != 'undefined') {
       this.submitSub.unsubscribe();
     }
   }

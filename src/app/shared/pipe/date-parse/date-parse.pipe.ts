@@ -30,7 +30,8 @@ export class DateParsePipe implements PipeTransform {
 
     const  m=['LT','LTS','L','LL','LLL','LLLL','l','ll','lll','llll'];
 
-    if(moment(value).isValid()){
+
+    if(moment(value,moment.ISO_8601,true).isValid()){
       if(args&&m.some(e=>e===args)){
         return moment(value).format(args);
       }
@@ -41,7 +42,7 @@ export class DateParsePipe implements PipeTransform {
         return moment(value).format('YYYY-MM-DD HH:mm:ss');
       }
     }
-    else return '';
+    else return value;
 
 
 

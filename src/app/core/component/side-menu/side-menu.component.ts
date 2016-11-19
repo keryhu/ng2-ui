@@ -34,7 +34,8 @@ export class SideMenuComponent implements OnInit,OnDestroy {
 
   ngOnInit(): void {
 
-    if (this.authService.isLoggedIn) {
+
+    if (this.authService.getLoggedIn) {
       this.menus = this.getMenus().map(e=>e['menus']);
     }
 

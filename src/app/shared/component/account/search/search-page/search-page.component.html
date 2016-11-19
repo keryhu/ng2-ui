@@ -58,7 +58,7 @@
           <md-checkbox></md-checkbox>
         </th>
         <td *ngFor="let i of dataTitle">
-          {{d[i.name]}}
+          {{d[i.name]| dateParse}}
         </td>
 
       </tr>

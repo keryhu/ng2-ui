@@ -1,5 +1,5 @@
 /**
- * @Description : 设置全局的header
+ * @Description : 设置全局的header，这里还设置了一个方法，可以异步获取access token
  * @date : 16/7/4 上午9:58
  * @author : keryHu keryhu@hotmail.com
  */
@@ -7,7 +7,7 @@
 import {URLSearchParams, Headers,RequestOptions,Response} from "@angular/http";
 
 import {Injectable} from "@angular/core";
-import {Observable} from "rxjs/Rx";
+import {Observable, Subject} from "rxjs/Rx";
 
 import {Constant} from "../util";
 
@@ -20,7 +20,14 @@ export class RequestService {
   private clientSecret:string = Constant.clientSecret;
   private basicSecret:string=btoa(`${this.clientId}:${this.clientSecret}`);
 
+  // 为了异步获取access-token，因为从本地localStorage里面获取有时候或有延时
+
+
   //service , contstrctor 中的方法,不能放到 ngOnInit 中
+
+  private asyAuthHeaderSource=new Subject<Headers>();
+
+  asyAuthHeader$=this.asyAuthHeaderSource.asObservable();
 
 
   getJsonHeaders():Headers {
@@ -62,9 +69,7 @@ export class RequestService {
 
 
   getLoginHeaders():Headers {
-
     const headers = new Headers();
-
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
     headers.append('Authorization', 'Basic ' + this.basicSecret);
     return headers;
@@ -82,5 +87,12 @@ export class RequestService {
     return Observable.throw(m.message || 'Server error');
 
 
+  }
+
+  //  异步获取 header
+  getAsyAuthHeaders(token:string){
+    const headers = this.getJsonHeaders();
+    headers.append('Authorization', `Bearer ${token}`);
+    this.asyAuthHeaderSource.next(headers);
   }
 }

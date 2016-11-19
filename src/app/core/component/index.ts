@@ -6,6 +6,5 @@
 
 
 export * from './spinner';
-export * from './top-navbar';
 export * from './side-menu';
-export * from './search-bar';
+export * from './top';
