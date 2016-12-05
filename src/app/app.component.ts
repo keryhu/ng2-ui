@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {Subscription, BehaviorSubject} from "rxjs";
+import {Subscription, Observable} from "rxjs";
 
 
 import {SpinnerService, AuthService} from "./core";
@@ -19,6 +19,8 @@ export class AppComponent implements OnInit,OnDestroy {
 
   private spinnersub: Subscription;
   public active: boolean;
+  // 查看后台，是否有新message，主要用在 top-message 组件
+  private hasNewMessage:Observable<boolean>;
 
 
   ngOnInit(): void {

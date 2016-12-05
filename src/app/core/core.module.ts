@@ -13,7 +13,7 @@ import {HttpModule} from "@angular/http";
 import {RouterModule} from "@angular/router";
 
 
-import {SpinnerModule,SpinnerService,TopNavbarModule,
+import {SpinnerModule,SpinnerService,TopNavbarModule
 } from "./component";
 import {RequestService, AccessTokenRest, TokenService, AuthProviders,
   UserQueryService,Convert,StringFormat,CountdownService,

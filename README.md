@@ -1,7 +1,8 @@
 2016 10。29
 
 使用的是，自定义的login页面，
-携带access——token，因为无法完成websocket，所以此方案暂停，
+携带access——token，
+自身携带acces token，现在启动。，
 
 
 2个bug 未消除

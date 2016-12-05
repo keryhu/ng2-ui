@@ -1,9 +1,10 @@
 import {
-  Component, OnInit, Output, EventEmitter
+  Component, OnInit, Output, EventEmitter, OnDestroy, Input
 
 } from '@angular/core';
 import {AuthService, RoleEnum} from "../../../service";
-
+import {TopMessageService} from "../top-message/top-message.service";
+import {Subscription, Observable} from "rxjs";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {AuthService, RoleEnum} from "../../../service";
   templateUrl: 'top-navbar.component.html',
   styleUrls: ['top-navbar.component.css']
 })
-export class TopNavbarComponent implements OnInit {
+export class TopNavbarComponent implements OnInit,OnDestroy {
 
 
   //登录后，显示的首页名字。
@@ -21,6 +22,9 @@ export class TopNavbarComponent implements OnInit {
   private afterLoggedUrl: string;
 
   private showSearchBar: boolean = false;
+
+  private initMsgSub: Subscription;
+
 
   constructor(private authService: AuthService) {
   }
@@ -38,16 +42,11 @@ export class TopNavbarComponent implements OnInit {
         this.afterLoggedUrl = '/profile/home';
         this.afterLoggedIndex = '会员首页';
       }
+
     }
   }
 
-
   @Output() toggleMenuIcon = new EventEmitter<boolean>();
-
-  //异步查看当前用户有没有登录
-  getLoggedIn() {
-    return this.authService.getLoggedIn();
-  }
 
   // 用户点击 "menu icon " 事件
   toggle() {
@@ -75,10 +74,21 @@ export class TopNavbarComponent implements OnInit {
     this.showSearchBar=false;
   }
    */
-
+//异步查看当前用户有没有登录
+  getLoggedIn() {
+    return this.authService.getLoggedIn();
+  }
 
   logout() {
     this.authService.logout();
     return false;
   }
+
+  ngOnDestroy(): void {
+
+    if (typeof this.initMsgSub != 'undefined') {
+      this.initMsgSub.unsubscribe();
+    }
+  }
+
 }

@@ -1,12 +1,10 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input} from '@angular/core';
 import {Router} from "@angular/router";
 
 import {TokenObj, TokenService, AuthService} from "../../../service";
 
-import * as SockJS from 'sockjs-client';
-import * as Stomp from 'stompjs';
 import {TopMessageService} from "./top-message.service";
-import {Subscription} from "rxjs";
+import {Subscription, Observable} from "rxjs";
 
 // 这个是  顶部栏 显示 未读消息对象的 interface
 // 最基本的subjectMsg
@@ -29,20 +27,11 @@ interface WebsocketMessage {
 })
 export class TopMessageComponent implements OnInit,OnDestroy {
 
-  private userId: string;
-  private accessToken:string;
-  // 是否 是新地点的客服人员或者管理员
-  private isXdidian: boolean = this.authService.isXdidianAdmin() ||
-    this.authService.isXdidianService();
-  private endpointUrl = '/websocket/front';
-  private individulaSubUrl: string;
-  private xdidianSubUrl = '/topic/websocketAndMessage';
-  private stompClient: any;
   //private sendUrl = '/pcAngular2/hello'
   // 查看message是否为空，也就是说有没有未读消息，从前台传过来。
-  private topMsgNotEmpty: boolean;
+  private topMsgNotEmpty: Observable<boolean>;
 
-  private subjectMsgs: Array<SubjectMsg>;
+  private subjectMsgs: Observable<Array<SubjectMsg>>;
   private initMsgSub: Subscription;
   private getInitMsgSub: Subscription;
   private updateMsgSub: Subscription;
@@ -53,67 +42,28 @@ export class TopMessageComponent implements OnInit,OnDestroy {
 
   ngOnInit() {
     // 使用异步方法，促使 用户登录后，马上能够显示 未读消息
-    this.initMsgSub = this.topMessageService.initMessageAfterLoginedIn()
-      .subscribe(e=> {
-        this.subjectMsgs = e.filter(v=>v['count']>0);
-        this.topMsgNotEmpty = this.subjectMsgs.length > 0;
-      });
+    this.topMsgNotEmpty=this.topMessageService.initMessageAfterLoginedIn()
+      .map(e=>e.length > 0);
+
+    this.subjectMsgs=this.topMessageService.initMessageAfterLoginedIn();
 
     // 上面那个是 登录 促发的，下面这个是 刷新页面促发的
-    if (this.authService.isLoggedIn()) {
-      this.accessToken=localStorage.getItem('access-token');
-      this.connect();
-
-      this.getInitMsgSub = this.topMessageService.getInitMessages()
-        .subscribe(e=> {
-          this.subjectMsgs = e.filter(v=>v['count']>0);
-          this.topMsgNotEmpty = this.subjectMsgs.length > 0;
-        });
-
-      const tokenObj: TokenObj = JSON.parse(localStorage.getItem('token'));
-      this.userId = tokenObj.userId;
-
-      this.individulaSubUrl = '/user/queue/websocketAndMessage';
-
-
+    if (this.authService.isLoggedIn()){
+     this.refreshMessage();
     }
 
-  }
-
-  connect() {
-    const socket = new SockJS(this.endpointUrl);
-    this.stompClient = Stomp.over(socket);
-    const headers = {};
-    const token = this.tokenService.getCsrf();
-    headers['X-CSRF-TOKEN'] = token;
-    headers['X-Auth-Token']=this.accessToken;
-
-    let stompConnect = (frame) => {
-
-      console.log('Connected: ' + frame);
-      this.stompClient.subscribe(this.individulaSubUrl, e=> {
-        console.log(e.body);
-        this.doWithWebsocket(e.body);
-      },headers);
-      if (this.isXdidian) {
-        this.stompClient.subscribe(this.xdidianSubUrl, e=> {
-          console.log(e.body);
-          this.doWithWebsocket(e.body);
-        },headers)
-      }
-    };
-    this.stompClient.connect(headers, stompConnect);
 
   }
 
+  // 从top-navbar传递过来，用户是否登录，为什么要top-navbar传递过来，
+  // 因为一旦用户退出登录，能第一时间知道
 
-  //异步查看当前用户有没有登录
-  getLoggedIn() {
-    return this.authService.getLoggedIn();
-  }
+  @Input() isLogged:Observable<boolean>;
+
 
   // 用户点击 某一个message促发的事件
   clickMessage(message) {
+    console.log(message);
     switch (message.subject) {
       case '待审核公司':
         this.router.navigate(['/service/check-company'],
@@ -128,6 +78,7 @@ export class TopMessageComponent implements OnInit,OnDestroy {
         break;
       case '公司注册失败':
         this.router.navigate(['/profile/create-company/check-company-edit']);
+        this.updateMessage('公司注册失败');
         break;
       case '待加入员工':     //需要改
         this.router.navigate(['/service/check-company'],
@@ -147,58 +98,28 @@ export class TopMessageComponent implements OnInit,OnDestroy {
     }
   }
 
-  // 当用户点击 菜单的时候，更新 未读消息。
-  updateMessage(value: string) {
-    this.updateMsgSub = this.topMessageService.updateMessage(value)
-      .subscribe(
-        e=> {
-          if (e && e.result == true) {
-            console.log('update success');
-            this.subjectMsgs = this.subjectMsgs.filter(v=>v.subject != value);
-            if (this.subjectMsgs.length == 0) {
-              this.topMsgNotEmpty = false;
-            }
-          }
-        },
-        err=> {
-          console.log(err);
-        }
-      );
+
+  // 用户点击 刷新 ，查看是否有新消息，避免刷新浏览器，整个页面刷新，同时代替 websocket功能
+  refreshMessage(){
+    this.topMsgNotEmpty=this.topMessageService.getInitMessages()
+      .map(e=>e.length > 0);
+    this.subjectMsgs=this.topMessageService.getInitMessages();
   }
 
-  // 根据websocket 的消息 进行处理,找到相关的主题，然后根据opterate操作
-  doWithWebsocket(data) {
-    //{"subject":"待审核公司","userId":null,"readGroup":"XDIDIAN","operate":"ADD"}
-    if (data) {
-      const m: WebsocketMessage = JSON.parse(data);
-      let t; // 创建一个变量，存储 从subjectMsg中找到subject为websocket.subject相等的object
-      let index;   // 满足条件对象，在原来数组中的下标
-      t = this.subjectMsgs.filter(v=>v.subject == m.subject)[0];
-      if (t) {
-        index = this.subjectMsgs.indexOf(t);
-        // 更新后的对象为：
-        if (m.operate == 'ADD') {
-          t.count = t.count + 1
-        }
-        else {
-          if (t.count >= 1) {
-            t.count = t.count - 1;
-          }
-        }
-        this.subjectMsgs.splice(index, 1, t);
-      }
-      else {
-        this.subjectMsgs.unshift({subject: m.subject, count: 1})
-        this.topMsgNotEmpty = true;
-      }
-    }
+  // 当用户点击 菜单的时候，更新 未读消息。
+  // 后台数据库处理，也就是直接删除掉 subject 为此value 的message，然后返回给前台该数据
+
+  updateMessage(value: string) {
+
+    this.topMsgNotEmpty=this.topMessageService.updateMessage(value)
+      .map(e=>e.length > 0);
+    this.subjectMsgs=this.topMessageService.updateMessage(value);
   }
+
 
 
   ngOnDestroy(): void {
-    if (typeof this.stompClient !== 'undefined') {
-      this.stompClient.disconnect();
-    }
+
     if (typeof this.initMsgSub != 'undefined') {
       this.initMsgSub.unsubscribe();
     }

@@ -1,23 +1,27 @@
-
-<button *ngIf="(topMsgNotEmpty)&&(getLoggedIn() | async)"
+<button *ngIf="(topMsgNotEmpty|async)&&(isLogged|async)"
         md-icon-button [md-menu-trigger-for]="menu" aria-label="Open basic menu"
         md-tooltip="有新消息" tooltip-position="below">
   <md-icon class="md-24">notifications_active</md-icon>
 </button>
 
 
-<button *ngIf="!(getLoggedIn() | async)||!(topMsgNotEmpty)"
+<button *ngIf="!((topMsgNotEmpty|async)&&(isLogged|async))"
         md-icon-button
         md-tooltip="无新消息" tooltip-position="below">
   <md-icon class="md-24">notifications_none</md-icon>
 </button>
 
 <md-menu #menu="mdMenu">
-  <button md-menu-item *ngFor="let message of subjectMsgs"
+  <button md-menu-item *ngFor="let message of subjectMsgs|async"
           (click)="clickMessage(message)">
     <span class="count">{{message.count}}</span>
     <span class="splitClass">|</span>
     {{message.subject}}
   </button>
 </md-menu>
+
+<button *ngIf="isLogged|async " md-icon-button (click)="refreshMessage()"
+        md-tooltip="刷新-系统消息" tooltip-position="below">
+  <md-icon class="md-24">refresh</md-icon>
+</button>
 

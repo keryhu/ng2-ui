@@ -167,8 +167,10 @@ export class CheckCompanyDetailComponent implements OnInit ,OnDestroy{
 
   // 审核通过，或者审核拒绝且验证符合要求   disabled 的条件是：拒绝且valid
   submit(data) {
-    if(this.form.valid){
-
+    console.log(data);
+    console.log(this.checkedMethd)
+    if(this.form.valid||this.checkedMethd=='AGREE'){
+      console.log('2'
       let itemIsUnique:boolean;
       const m=data.rejects.map(e=>{
         const n={

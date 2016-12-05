@@ -5,7 +5,7 @@ import {RouterModule} from "@angular/router";
 
 import { TopNavbarComponent } from './top-navbar.component';
 import {SearchBarModule} from "../search-bar";
-import {TopMessageModule} from "../top-message/top-message.module";
+import {TopMessageModule,TopMessageService} from "../top-message";
 
 
 

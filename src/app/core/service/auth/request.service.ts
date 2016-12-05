@@ -89,7 +89,7 @@ export class RequestService {
 
   }
 
-  //  异步获取 header
+  //  异步获取 header，topMessage 组件，address 组件，都调用了这个。
   getAsyAuthHeaders(token:string){
     const headers = this.getJsonHeaders();
     headers.append('Authorization', `Bearer ${token}`);

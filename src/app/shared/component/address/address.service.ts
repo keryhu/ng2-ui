@@ -14,14 +14,17 @@ export class AddressService {
 
   }
 
-  // 获取服务的  省份，直辖市的 数组（这里是code和name的object
+  // 获取服务的  省份，直辖市的 数组（这里是code和name的object,这里使用的异步headers
+  // 为什么这个不需要secured，因为通道情况下，这个在携带accessToken的时候，
+  // angular2不能计时更新token，所以后台设置了免费。
   getProvinces(): Observable<Array<AddressItem>> {
 
     const url = Constant.getProvincesUrl;
-    return this.http.get(url, this.request.getAuthOptions())
+    return this.http.get(url, this.request.getJsonHeaders())
       .map((res: Response)=>res.json());
 
   }
+
 
   // 根据省份，获取地级市的数据，根据province name获取
   getCities(province: Observable<AddressItem>): Observable<Array<AddressItem>> {
